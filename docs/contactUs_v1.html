@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ============================================================
+     CLINICIAN REPORTS — Contact Us Page
+     File: pages/contactUs_v1.html
+     Stylesheet: ../styles/main.css
+     ============================================================ -->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Contact Us | Clinician Reports</title>
+
+  <meta name="description" content="Have a question about our AI scribe evaluations, want to collaborate, or reaching out from a media organization? We'd love to hear from you." />
+
+  <!-- Open Graph -->
+  <meta property="og:title"       content="Contact Us | Clinician Reports" />
+  <meta property="og:description" content="Reach out to the Clinician Reports team — we read every message personally." />
+  <meta property="og:type"        content="website" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Poppins:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Font Awesome 6 (icons) -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <!-- Global stylesheet -->
+  <link rel="stylesheet" href="../styles/main.css" />
+
+  <!-- Alpine.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- ============================================================
+       PAGE-SPECIFIC STYLES
+       ============================================================ -->
+  <style>
+
+    /* ── Page Hero ── */
+    .contact-hero {
+      background: var(--color-primary);
+      padding: var(--space-20) var(--space-6);
+      text-align: center;
+    }
+
+    .contact-hero__label {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-secondary);
+      margin-bottom: var(--space-4);
+    }
+
+    .contact-hero__heading {
+      font-family: var(--font-heading);
+      font-size: var(--text-4xl);
+      font-weight: var(--weight-black);
+      color: var(--color-white);
+      line-height: var(--leading-tight);
+      margin-bottom: var(--space-6);
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .contact-hero__sub {
+      font-size: var(--text-md);
+      color: rgba(255, 255, 255, 0.80);
+      max-width: 640px;
+      margin: 0 auto;
+      line-height: var(--leading-loose);
+    }
+
+    @media (max-width: 768px) {
+      .contact-hero__heading { font-size: var(--text-3xl); }
+    }
+    @media (max-width: 480px) {
+      .contact-hero__heading { font-size: var(--text-2xl); }
+    }
+
+
+    /* ── Intro Paragraph ── */
+    .contact-intro {
+      max-width: 720px;
+      font-size: var(--text-md);
+      line-height: var(--leading-loose);
+      color: var(--color-text);
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+
+    /* ── Two-Column Contact Layout ── */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: var(--space-12);
+      align-items: start;
+      margin-top: var(--space-10);
+    }
+
+    @media (max-width: 768px) {
+      .contact-layout {
+        grid-template-columns: 1fr;
+        gap: var(--space-10);
+      }
+    }
+
+
+    /* ── Contact Form ── */
+    .contact-form {
+      background: var(--color-white);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-10);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .contact-form__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-xl);
+      font-weight: var(--weight-bold);
+      color: var(--color-primary);
+      margin-bottom: var(--space-6);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      margin-bottom: var(--space-5);
+    }
+
+    .form-group label {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      color: var(--color-text);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: var(--color-text);
+      background: #FAFBFC;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-3) var(--space-4);
+      width: 100%;
+      box-sizing: border-box;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(15, 76, 117, 0.10);
+      background: var(--color-white);
+    }
+
+    .form-group select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230F4C75' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right var(--space-4) center;
+      padding-right: var(--space-10);
+      cursor: pointer;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 140px;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #9CA3AF;
+    }
+
+    /* Submit button — full-width inside the form */
+    .form-submit {
+      width: 100%;
+      margin-top: var(--space-2);
+      justify-content: center;
+    }
+
+    /* Success state */
+    .form-success {
+      text-align: center;
+      padding: var(--space-10) var(--space-6);
+    }
+
+    .form-success__icon {
+      font-size: 2.5rem;
+      color: #3A8C5A;
+      margin-bottom: var(--space-4);
+    }
+
+    .form-success__heading {
+      font-family: var(--font-heading);
+      font-size: var(--text-xl);
+      font-weight: var(--weight-bold);
+      color: var(--color-primary);
+      margin-bottom: var(--space-3);
+    }
+
+    .form-success__body {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: var(--leading-loose);
+    }
+
+
+    /* ── Direct Contact Sidebar ── */
+    .direct-contact {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .direct-contact__card {
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-7);
+    }
+
+    .direct-contact__label {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-secondary);
+      margin-bottom: var(--space-3);
+    }
+
+    .direct-contact__label i {
+      font-size: 0.875rem;
+      color: var(--color-primary);
+    }
+
+    .direct-contact__heading {
+      font-family: var(--font-heading);
+      font-size: var(--text-lg);
+      font-weight: var(--weight-bold);
+      color: var(--color-primary);
+      margin-bottom: var(--space-3);
+    }
+
+    .direct-contact__body {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: var(--leading-loose);
+      margin: 0 0 var(--space-4);
+    }
+
+    .direct-contact__email {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      color: var(--color-primary);
+      text-decoration: none;
+      border-bottom: 2px solid var(--color-secondary);
+      padding-bottom: 1px;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .direct-contact__email:hover {
+      color: #0A3A5C;
+      border-color: var(--color-primary);
+    }
+
+
+    /* ── Response Time Note ── */
+    .response-note {
+      margin-top: var(--space-10);
+      padding: var(--space-6) var(--space-8);
+      background: var(--color-surface);
+      border-left: 4px solid var(--color-secondary);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    }
+
+    .response-note__text {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: var(--leading-loose);
+      margin: 0;
+    }
+
+    .response-note__text strong {
+      color: var(--color-text);
+    }
+
+
+    /* ── Closing Strip ── */
+    .closing-strip {
+      background: var(--color-surface);
+      padding: var(--space-20) var(--space-6);
+      text-align: center;
+    }
+
+    .closing-strip__text {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: var(--leading-loose);
+      margin-bottom: var(--space-5);
+    }
+
+    .closing-strip__links {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 480px) {
+      .closing-strip__links {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       NAVIGATION BAR
+       ============================================================ -->
+  <header style="position: sticky; top: 0; z-index: 100;">
+    <nav class="nav" x-data="{ open: false }" aria-label="Main navigation">
+
+      <div class="nav__inner">
+
+        <a href="index.html" class="nav__logo" aria-label="Clinician Reports — Home">
+          Clinician Reports
+        </a>
+
+        <!-- Desktop links -->
+        <ul class="nav__links" role="list">
+          <li><a href="index.html"                 class="nav__link">Home</a></li>
+          <li><a href="featuresComparison_v1.html" class="nav__link">AI Scribe Features</a></li>
+          <li><a href="aiScribeReviews_v1.html"    class="nav__link">AI Scribe Reviews</a></li>
+          <li><a href="methodology_v1.html"        class="nav__link">Methodology</a></li>
+          <li><a href="aboutUs_v1.html"            class="nav__link">About</a></li>
+          <li><a href="contactUs_v1.html"          class="btn btn--primary btn--sm nav__link--active">Contact Us</a></li>
+        </ul>
+
+        <!-- Mobile hamburger -->
+        <button
+          class="nav__toggle"
+          @click="open = !open"
+          :aria-expanded="open"
+          aria-controls="mobile-menu"
+          aria-label="Toggle navigation menu"
+        >
+          <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg x-show="open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+      </div><!-- /.nav__inner -->
+
+      <!-- Mobile drawer -->
+      <div
+        id="mobile-menu"
+        class="nav__mobile"
+        x-show="open"
+        x-transition
+        role="navigation"
+        aria-label="Mobile navigation"
+      >
+        <a href="index.html"                 class="nav__link">Home</a>
+        <a href="featuresComparison_v1.html" class="nav__link">AI Scribe Features</a>
+        <a href="aiScribeReviews_v1.html"    class="nav__link">AI Scribe Reviews</a>
+        <a href="methodology_v1.html"        class="nav__link">Methodology</a>
+        <a href="aboutUs_v1.html"            class="nav__link">About</a>
+        <a href="contactUs_v1.html"          class="btn btn--primary btn--sm">Contact Us</a>
+      </div>
+
+    </nav>
+  </header>
+
+
+  <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+  <main id="main-content" aria-label="Page content">
+
+
+    <!-- ── 1. PAGE HERO ────────────────────────────────────────── -->
+    <section class="contact-hero" aria-labelledby="contact-hero-heading">
+      <span class="contact-hero__label">Get in Touch</span>
+      <h1 class="contact-hero__heading" id="contact-hero-heading">
+        Let's Talk
+      </h1>
+      <p class="contact-hero__sub">
+        Whether you have a question about our evaluations, want to collaborate on future research,
+        or are reaching out from a media organization, we want to hear from you.
+      </p>
+    </section>
+
+
+    <!-- ── 2. INTRO + FORM + SIDEBAR ──────────────────────────── -->
+    <section class="section" aria-labelledby="contact-form-heading">
+      <div class="container">
+
+        <!-- Intro paragraph -->
+        <p class="contact-intro">
+          We built this resource for the clinical community, and the clinical community makes it
+          better. If something in our evaluations sparked a question, if you have firsthand
+          experience with a tool we reviewed, or if you're interested in partnering on future
+          work, reach out. Every message is read by a member of our team.
+        </p>
+
+        <!-- Two-column layout: form (left) + sidebar (right) -->
+        <div class="contact-layout">
+
+          <!-- ── LEFT: Contact Form ── -->
+          <!--
+            TO CONNECT THIS FORM: Replace the <form> action attribute
+            with your form service endpoint (e.g. Formspree, Netlify Forms,
+            or your own backend). Example for Formspree:
+            action="https://formspree.io/f/YOUR_FORM_ID" method="POST"
+          -->
+          <div
+            class="contact-form"
+            x-data="{
+              submitted: false,
+              submitting: false,
+              handleSubmit(e) {
+                e.preventDefault();
+                this.submitting = true;
+                setTimeout(() => {
+                  this.submitted = true;
+                  this.submitting = false;
+                }, 800);
+              }
+            }"
+          >
+
+            <!-- Success state -->
+            <div class="form-success" x-show="submitted" x-transition>
+              <div class="form-success__icon" aria-hidden="true">
+                <i class="fa-solid fa-circle-check"></i>
+              </div>
+              <h2 class="form-success__heading">Message Sent</h2>
+              <p class="form-success__body">
+                Thank you for reaching out. A member of our team will follow up within
+                3 business days. We appreciate your patience.
+              </p>
+            </div>
+
+            <!-- Form fields -->
+            <form
+              x-show="!submitted"
+              @submit="handleSubmit($event)"
+              novalidate
+              aria-labelledby="contact-form-heading"
+            >
+              <h2 class="contact-form__title" id="contact-form-heading">Send Us a Message</h2>
+
+              <!-- Name -->
+              <div class="form-group">
+                <label for="contact-name">Name <span aria-hidden="true">*</span></label>
+                <input
+                  type="text"
+                  id="contact-name"
+                  name="name"
+                  placeholder="Your full name"
+                  required
+                  autocomplete="name"
+                />
+              </div>
+
+              <!-- Email -->
+              <div class="form-group">
+                <label for="contact-email">Email <span aria-hidden="true">*</span></label>
+                <input
+                  type="email"
+                  id="contact-email"
+                  name="email"
+                  placeholder="your@email.com"
+                  required
+                  autocomplete="email"
+                />
+              </div>
+
+              <!-- Organization (optional) -->
+              <div class="form-group">
+                <label for="contact-org">
+                  Organization
+                  <span style="font-weight: 400; color: var(--color-text-muted);">(optional)</span>
+                </label>
+                <input
+                  type="text"
+                  id="contact-org"
+                  name="organization"
+                  placeholder="Hospital, university, or company name"
+                  autocomplete="organization"
+                />
+              </div>
+
+              <!-- Inquiry type -->
+              <div class="form-group">
+                <label for="contact-type">Inquiry Type <span aria-hidden="true">*</span></label>
+                <select id="contact-type" name="inquiry_type" required>
+                  <option value="" disabled selected>Select an inquiry type</option>
+                  <option value="collaboration">Collaboration</option>
+                  <option value="press">Press / Media</option>
+                  <option value="evaluation-question">Question about an evaluation</option>
+                  <option value="general">General question</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <!-- Message -->
+              <div class="form-group">
+                <label for="contact-message">Message <span aria-hidden="true">*</span></label>
+                <textarea
+                  id="contact-message"
+                  name="message"
+                  placeholder="Tell us what's on your mind. The more context you share, the better we can help."
+                  required
+                ></textarea>
+              </div>
+
+              <!-- Submit -->
+              <button
+                type="submit"
+                class="btn btn--primary btn--lg form-submit"
+                :disabled="submitting"
+              >
+                <span x-show="!submitting">Send Message &rarr;</span>
+                <span x-show="submitting">Sending&hellip;</span>
+              </button>
+
+            </form>
+
+          </div><!-- /.contact-form -->
+
+
+          <!-- ── RIGHT: Direct Contact Sidebar ── -->
+          <aside class="direct-contact" aria-label="Direct contact information">
+
+            <!-- Email card -->
+            <div class="direct-contact__card">
+              <h2 class="direct-contact__heading">Reach us directly</h2>
+              <p class="direct-contact__body">
+                You can reach us directly at:
+              </p>
+              <!-- TODO: Replace with your actual email address -->
+              <a href="mailto:hello@clinicianreports.com" class="direct-contact__email">
+                hello@clinicianreports.com
+              </a>
+              <p class="direct-contact__body" style="margin-top: var(--space-4); margin-bottom: 0;">
+                We read every message personally and will do our best to respond
+                thoughtfully — not with an automated reply.
+              </p>
+            </div>
+
+            <!-- What to expect card -->
+            <div class="direct-contact__card">
+              <h2 class="direct-contact__heading">We follow up personally</h2>
+              <p class="direct-contact__body" style="margin-bottom: 0;">
+                Every inquiry is reviewed by a member of our team. We don't use automated filters
+                or ticket systems — your message goes directly to a person who can actually help.
+              </p>
+            </div>
+
+          </aside><!-- /.direct-contact -->
+
+        </div><!-- /.contact-layout -->
+
+
+        <!-- ── Response Time Note ── -->
+        <div class="response-note" role="note" aria-label="Response time information">
+          <p class="response-note__text">
+            <strong>Response time:</strong> We typically respond within 3 business days. During
+            high-volume periods it may take a little longer, but we will always follow up.
+            This is an independent, volunteer-driven project — we appreciate your patience.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ── 3. CLOSING STRIP ────────────────────────────────────── -->
+    <section class="closing-strip" aria-label="Explore more">
+      <div class="container">
+        <p class="closing-strip__text">
+          Not ready to reach out yet? Browse our evaluations or read about our
+          methodology to learn more about how we work.
+        </p>
+        <div class="closing-strip__links">
+          <a href="aiScribeReviews_v1.html" class="btn btn--primary btn--md">
+            View Evaluations
+          </a>
+          <a href="methodology_v1.html" class="btn btn--outline btn--md">
+            Read Our Methodology
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+  </main><!-- /#main-content -->
+
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer" aria-label="Site footer">
+
+    <div class="footer__inner">
+
+      <!-- Column 1: Brand & tagline -->
+      <div class="footer__brand">
+        <a href="../index.html" class="footer__logo">Clinician Reports</a>
+        <p class="footer__tagline">
+          Independent human factors evaluations of AI scribe tools —
+          helping you choose the right solution based on safety and efficiency.
+        </p>
+      </div>
+
+      <!-- Column 2: Site pages -->
+      <div style="margin-left: auto;">
+        <p class="footer__col-title">Pages</p>
+        <ul class="footer__links" role="list">
+          <li><a href="../index.html"            class="footer__link">Home</a></li>
+          <li><a href="aiScribeReviews_v1.html"  class="footer__link">AI Scribe Reviews</a></li>
+          <li><a href="methodology_v1.html"      class="footer__link">Methodology</a></li>
+          <li><a href="aboutUs_v1.html"          class="footer__link">About Us</a></li>
+          <li><a href="contactUs_v1.html"        class="footer__link">Contact Us</a></li>
+        </ul>
+      </div>
+
+    </div><!-- /.footer__inner -->
+
+    <!-- Bottom bar -->
+    <div class="footer__bottom">
+      <p class="footer__copy">
+        &copy; <span id="footer-year"></span> Clinician Reports. All rights reserved.
+      </p>
+    </div>
+
+  </footer>
+
+  <!-- Auto-update copyright year -->
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

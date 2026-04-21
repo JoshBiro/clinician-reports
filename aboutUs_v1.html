@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ============================================================
+     CLINICIAN REPORTS — About Us Page
+     File: pages/aboutUs_v1.html
+     Stylesheet: styles/main.css
+     ============================================================ -->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>About Us | Clinician Reports</title>
+
+  <meta name="description" content="Meet the team behind Clinician Reports — independent human factors researchers and clinicians evaluating AI scribe tools for safety and efficiency." />
+
+  <!-- Open Graph -->
+  <meta property="og:title"       content="About Us | Clinician Reports" />
+  <meta property="og:description" content="Meet the team behind Clinician Reports — independent human factors researchers and clinicians evaluating AI scribe tools for safety and efficiency." />
+  <meta property="og:type"        content="website" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Poppins:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Global stylesheet -->
+  <link rel="stylesheet" href="styles/main.css" />
+
+  <!-- Alpine.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- ============================================================
+       PAGE-SPECIFIC STYLES
+       These extend main.css for the About Us layout only.
+       ============================================================ -->
+  <style>
+
+    /* ── Page Hero ── */
+    .about-hero {
+      background: var(--color-primary);
+      padding: var(--space-20) var(--space-6);
+      text-align: center;
+    }
+
+    .about-hero__label {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-secondary);
+      margin-bottom: var(--space-4);
+    }
+
+    .about-hero__heading {
+      font-family: var(--font-heading);
+      font-size: var(--text-4xl);
+      font-weight: var(--weight-black);
+      color: var(--color-white);
+      line-height: var(--leading-tight);
+      margin-bottom: var(--space-6);
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .about-hero__sub {
+      font-size: var(--text-md);
+      color: rgba(255, 255, 255, 0.80);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: var(--leading-loose);
+    }
+
+    @media (max-width: 768px) {
+      .about-hero__heading { font-size: var(--text-3xl); }
+    }
+
+    @media (max-width: 480px) {
+      .about-hero__heading { font-size: var(--text-2xl); }
+    }
+
+
+    /* ── Mission Section ── */
+    .mission__layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+      align-items: center;
+      margin-top: var(--space-6);
+    }
+
+    .mission__body p {
+      font-size: var(--text-md);
+      line-height: var(--leading-loose);
+      color: var(--color-text);
+    }
+
+    .mission__image {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .mission__image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .mission__layout {
+        grid-template-columns: 1fr;
+      }
+
+      .mission__image {
+        order: -1;
+      }
+    }
+
+
+    /* ── Team Grid ── */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-8);
+      margin-top: var(--space-10);
+    }
+
+    @media (max-width: 768px) {
+      .team-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Individual bio card */
+    .bio-card {
+      background: var(--color-white);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8);
+      display: flex;
+      gap: var(--space-6);
+      align-items: flex-start;
+      transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+    }
+
+    .bio-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-3px);
+    }
+
+    /* Circular headshot placeholder */
+    .bio-card__avatar {
+      flex-shrink: 0;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--color-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-size: var(--text-xl);
+      font-weight: var(--weight-black);
+      color: var(--color-primary);
+      letter-spacing: -0.02em;
+      overflow: hidden;
+    }
+
+    .bio-card__avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .bio-card__content {
+      flex: 1;
+    }
+
+    .bio-card__name {
+      font-family: var(--font-heading);
+      font-size: var(--text-lg);
+      font-weight: var(--weight-bold);
+      color: var(--color-primary);
+      line-height: var(--leading-snug);
+      margin-bottom: var(--space-3);
+    }
+
+    .bio-card__bio {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: var(--leading-loose);
+      margin: 0;
+    }
+
+    @media (max-width: 480px) {
+      .bio-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+    }
+
+
+    /* ── Editorial Independence Section ── */
+    .editorial {
+      background: var(--color-primary);
+      padding: var(--space-16) var(--space-6);
+    }
+
+    .editorial__inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: var(--space-12);
+      align-items: start;
+    }
+
+    .editorial__label {
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-secondary);
+      margin-bottom: var(--space-4);
+    }
+
+    .editorial__heading {
+      font-family: var(--font-heading);
+      font-size: var(--text-3xl);
+      font-weight: var(--weight-bold);
+      color: var(--color-white);
+      line-height: var(--leading-snug);
+    }
+
+    .editorial__body {
+      font-size: var(--text-md);
+      color: rgba(255, 255, 255, 0.80);
+      line-height: var(--leading-loose);
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      .editorial__inner {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+      }
+
+      .editorial__heading {
+        font-size: var(--text-2xl);
+      }
+    }
+
+
+    /* ── CTA Strip ── */
+    .cta-strip {
+      background: var(--color-surface);
+      padding: var(--space-16) var(--space-6);
+      text-align: center;
+    }
+
+    .cta-strip__heading {
+      font-family: var(--font-heading);
+      font-size: var(--text-3xl);
+      font-weight: var(--weight-bold);
+      color: var(--color-primary);
+      margin-bottom: var(--space-4);
+    }
+
+    .cta-strip__sub {
+      font-size: var(--text-md);
+      color: var(--color-text-muted);
+      max-width: 520px;
+      margin: 0 auto var(--space-8);
+      line-height: var(--leading-loose);
+    }
+
+    @media (max-width: 768px) {
+      .cta-strip__heading { font-size: var(--text-2xl); }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       NAVIGATION BAR
+       ============================================================ -->
+  <header style="position: sticky; top: 0; z-index: 100;">
+    <nav class="nav" x-data="{ open: false }" aria-label="Main navigation">
+
+      <div class="nav__inner">
+
+        <a href="index.html" class="nav__logo" aria-label="Clinician Reports — Home">
+          Clinician Reports
+        </a>
+
+        <!-- Desktop links -->
+        <ul class="nav__links" role="list">
+          <li><a href="index.html"                 class="nav__link">Home</a></li>
+          <li><a href="featuresComparison_v1.html" class="nav__link">AI Scribe Features</a></li>
+          <li><a href="aiScribeReviews_v1.html"    class="nav__link">AI Scribe Reviews</a></li>
+          <li><a href="methodology_v1.html"        class="nav__link">Methodology</a></li>
+          <li><a href="aboutUs_v1.html"            class="nav__link nav__link--active">About</a></li>
+          <li><a href="contactUs_v1.html"          class="btn btn--primary btn--sm">Contact Us</a></li>
+        </ul>
+
+        <!-- Mobile hamburger -->
+        <button
+          class="nav__toggle"
+          @click="open = !open"
+          :aria-expanded="open"
+          aria-controls="mobile-menu"
+          aria-label="Toggle navigation menu"
+        >
+          <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg x-show="open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+      </div><!-- /.nav__inner -->
+
+      <!-- Mobile drawer -->
+      <div
+        id="mobile-menu"
+        class="nav__mobile"
+        x-show="open"
+        x-transition
+        role="navigation"
+        aria-label="Mobile navigation"
+      >
+        <a href="index.html"                 class="nav__link">Home</a>
+        <a href="featuresComparison_v1.html" class="nav__link">AI Scribe Features</a>
+        <a href="aiScribeReviews_v1.html"    class="nav__link">AI Scribe Reviews</a>
+        <a href="methodology_v1.html"        class="nav__link">Methodology</a>
+        <a href="aboutUs_v1.html"            class="nav__link nav__link--active">About</a>
+        <a href="contactUs_v1.html"          class="btn btn--primary btn--sm">Contact Us</a>
+      </div>
+
+    </nav>
+  </header>
+
+
+  <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+  <main id="main-content" aria-label="Page content">
+
+
+    <!-- ── 1. PAGE HERO ────────────────────────────────────────── -->
+    <section class="about-hero" aria-labelledby="about-hero-heading">
+      <span class="about-hero__label">Who We Are</span>
+      <h1 class="about-hero__heading" id="about-hero-heading">
+        Independent Evaluations. Honest Answers.
+      </h1>
+      <p class="about-hero__sub">
+        A team of clinicians and human factors researchers giving you the honest,
+        vendor-free reviews you deserve before choosing an AI scribe tool.
+      </p>
+    </section>
+
+
+    <!-- ── 2. MISSION ──────────────────────────────────────────── -->
+    <section class="section" aria-labelledby="mission-heading">
+      <div class="container">
+
+        <span class="section-label">Our Mission</span>
+        <h2 id="mission-heading" style="margin-bottom: var(--space-6); max-width: 720px;">
+          Clinicians deserve honest reviews before buying clinical tools.
+        </h2>
+
+        <div class="mission__layout">
+
+          <div class="mission__body">
+            <p>
+              We believe clinicians deserve the same thing every consumer takes for granted,
+              the ability to read an honest review before buying a product. In healthcare, that's
+              rarely possible. Clinical tools are complex, workflows are high-stakes, and vendors
+              control most of the information available. We built this resource to change that.
+            </p>
+            <p>
+              There are almost no independent review platforms focused on the clinical products
+              that front-line providers actually use. These tools are often highly specialized,
+              sold into low-competition markets, and evaluated, if at all, by the companies
+              selling them. We're here to fill that gap with rigorous, vendor-free,
+              provider-focused evaluations.
+            </p>
+          </div>
+
+          <div class="mission__image">
+            <img
+              src="images/Patient_Doctor.png"
+              alt="A clinician and patient in conversation"
+              loading="lazy"
+            />
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+        <!-- ── 4. EDITORIAL INDEPENDENCE ───────────────────────────── -->
+    <section class="editorial" aria-labelledby="editorial-heading">
+      <div class="editorial__inner">
+
+        <div>
+          <p class="editorial__label">Our Standards</p>
+          <h2 class="editorial__heading" id="editorial-heading">
+            Editorial Independence
+          </h2>
+        </div>
+
+        <p class="editorial__body">
+          Each evaluation is conducted without vendor involvement, sponsorship, or compensation
+          from any evaluated product. No AI scribe vendor was notified prior to evaluation or
+          consulted during analysis. Findings represent the independent conclusions of the
+          evaluation team. This site does not accept paid placements or sponsored reviews.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- ── 3. TEAM ─────────────────────────────────────────────── -->
+    <section class="section section--alt" aria-labelledby="team-heading">
+      <div class="container">
+
+        <span class="section-label">The Team</span>
+        <h2 id="team-heading" style="margin-bottom: var(--space-3);">
+          Meet the people behind the reviews.
+        </h2>
+        <p style="color: var(--color-text-muted); max-width: 600px; margin-bottom: 0;">
+          Our evaluations are conducted by researchers and clinicians with deep expertise in
+          human factors, patient safety, and clinical technology.
+        </p>
+
+        <div class="team-grid" role="list">
+
+          <!-- Team Member 1: Raj Ratwani -->
+          <article class="bio-card" role="listitem">
+            <div class="bio-card__avatar" aria-hidden="true">RR</div>
+            <div class="bio-card__content">
+              <h3 class="bio-card__name">Raj Ratwani, PhD</h3>
+              <p class="bio-card__bio">
+                A doctoral researcher in Human Factors and Applied Cognition, his work focuses on
+                patient safety, digital health, and artificial intelligence, supported by nearly
+                $20 million in funding and over 100 peer-reviewed articles. His work extends into
+                healthcare policy through Senate testimony and advisory roles, aiming to improve
+                health information technology and clinical outcomes.
+              </p>
+            </div>
+          </article>
+
+          <!-- Team Member 2: Christopher Bonk -->
+          <article class="bio-card" role="listitem">
+            <div class="bio-card__avatar" aria-hidden="true">CB</div>
+            <div class="bio-card__content">
+              <h3 class="bio-card__name">Christopher Bonk, MSN, RN, CNL</h3>
+              <p class="bio-card__bio">
+                An emergency nurse with a master's degree spanning nursing and human-computer
+                interaction, Christopher has experience testing medical devices and
+                studying clinical workflows across specialties. His work sits at the intersection
+                of medical technology and best-practice design for both patients and providers.
+              </p>
+            </div>
+          </article>
+
+          <!-- Team Member 3: Josh Biro -->
+          <article class="bio-card" role="listitem">
+            <div class="bio-card__avatar" aria-hidden="true">JB</div>
+            <div class="bio-card__content">
+              <h3 class="bio-card__name">Josh Biro, PhD</h3>
+              <p class="bio-card__bio">
+                A doctoral researcher in Industrial Engineering whose work focuses on medication
+                safety, implementation science, and AI. Josh holds multiple publications on the
+                safe implementation and monitoring of AI systems within large healthcare
+                organizations.
+              </p>
+            </div>
+          </article>
+
+          <!-- Team Member 4: Garrett Zabala -->
+          <article class="bio-card" role="listitem">
+            <div class="bio-card__avatar" aria-hidden="true">GZ</div>
+            <div class="bio-card__content">
+              <h3 class="bio-card__name">Garrett Zabala, MS</h3>
+              <p class="bio-card__bio">
+                Holds a Master of Science in Human Systems Engineering. Garrett's research
+                examines how technology affects human performance in complex, multi-task
+                environments — including cognitive fatigue, workload, and human-AI teaming —
+                using physiological measurement tools and applied human factors methods.
+              </p>
+            </div>
+          </article>
+
+        </div><!-- /.team-grid -->
+
+      </div>
+    </section>
+
+    <!-- ── 5. CTA STRIP ────────────────────────────────────────── -->
+    <section class="cta-strip" aria-labelledby="cta-heading">
+      <div class="container">
+
+        <h2 class="cta-strip__heading" id="cta-heading">
+          Have a question or want to collaborate?
+        </h2>
+        <p class="cta-strip__sub">
+          We welcome feedback from clinicians, researchers, and developers who share our
+          commitment to better clinical technology.
+        </p>
+        <a href="contactUs_v1.html" class="btn btn--primary btn--lg">
+          Get in Touch
+        </a>
+
+      </div>
+    </section>
+
+
+  </main><!-- /#main-content -->
+
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer" aria-label="Site footer">
+
+    <div class="footer__inner">
+
+      <!-- Column 1: Brand & tagline -->
+      <div class="footer__brand">
+        <a href="index.html" class="footer__logo">Clinician Reports</a>
+        <p class="footer__tagline">
+          Independent human factors evaluations of AI scribe tools —
+          helping you choose the right solution based on safety and efficiency.
+        </p>
+      </div>
+
+      <!-- Column 2: Site pages -->
+      <div style="margin-left: auto;">
+        <p class="footer__col-title">Pages</p>
+        <ul class="footer__links" role="list">
+          <li><a href="index.html"            class="footer__link">Home</a></li>
+          <li><a href="aiScribeReviews_v1.html"  class="footer__link">AI Scribe Reviews</a></li>
+          <li><a href="methodology_v1.html"      class="footer__link">Methodology</a></li>
+          <li><a href="aboutUs_v1.html"          class="footer__link">About Us</a></li>
+          <li><a href="contactUs_v1.html"        class="footer__link">Contact Us</a></li>
+        </ul>
+      </div>
+
+    </div><!-- /.footer__inner -->
+
+    <!-- Bottom bar -->
+    <div class="footer__bottom">
+      <p class="footer__copy">
+        &copy; <span id="footer-year"></span> Clinician Reports. All rights reserved.
+      </p>
+    </div>
+
+  </footer>
+
+  <!-- Auto-update copyright year -->
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

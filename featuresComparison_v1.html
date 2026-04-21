@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ============================================================
+     CLINICIAN REPORTS — AI Scribe Feature Comparison
+     Page: featuresComparison_v1.html
+     ============================================================ -->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Scribe Feature List | Clinician Reports</title>
+  <meta name="description" content="Compare features across all reviewed AI scribe tools side-by-side — coding support, EHR integration, security, device support, and more." />
+  <meta property="og:title"       content="AI Scribe Feature List | Clinician Reports" />
+  <meta property="og:description" content="Side-by-side AI scribe feature comparison based on independent human factors evaluations." />
+  <meta property="og:type"        content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="styles/main.css" />
+
+  <style>
+
+    /* ── Page Header ─────────────────────────────────────────── */
+    .fc-header {
+      padding: var(--space-12) 0 var(--space-6);
+    }
+    .fc-header h1 {
+      font-size: var(--text-3xl);
+      margin-bottom: var(--space-2);
+    }
+    .fc-header .lead {
+      font-size: var(--text-base);
+      color: var(--color-text-muted);
+      max-width: 660px;
+      line-height: var(--leading-loose);
+      margin: 0;
+    }
+
+    /* ── Controls Bar ────────────────────────────────────────── */
+    .fc-controls {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-6);
+      padding: var(--space-5) var(--space-6);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-6);
+      flex-wrap: wrap;
+    }
+    .fc-controls__group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .fc-controls__label {
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+    .fc-controls__toggles {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* Scribe highlight toggle pill */
+    .scribe-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-pill);
+      border: 2px solid var(--color-border);
+      background: var(--color-white);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      line-height: 1;
+    }
+    .scribe-toggle:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+    .scribe-toggle.is-active {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: var(--color-white);
+    }
+    .scribe-toggle .t-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.7;
+      flex-shrink: 0;
+    }
+    .clear-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-pill);
+      border: 1px dashed var(--color-text-muted);
+      background: transparent;
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .clear-btn:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    /* Legend */
+    .fc-legend {
+      display: flex;
+      gap: var(--space-5);
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+    }
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .legend-dot--supported  { background: #1a7f4b; }
+    .legend-dot--partial    { background: #b45309; }
+    .legend-dot--unlisted   { background: #d1d5db; }
+    .legend-dot--unknown    { background: #f3f4f6; border: 1px solid #d1d5db; }
+
+    /* ── Sticky Scribe Header Bar ────────────────────────────── */
+    /*
+      Lives ABOVE and OUTSIDE the table wrapper — no overflow ancestor,
+      so position:sticky resolves cleanly against the page viewport.
+      Grid columns mirror the table's fixed column layout exactly.
+    */
+    .scribe-hd-bar {
+      position: sticky;
+      top: 68px;           /* sit flush below the nav bar          */
+      z-index: 20;
+      display: grid;
+      grid-template-columns: 210px repeat(4, 1fr);
+      min-width: 740px;    /* must match .fc-table min-width        */
+      background: var(--color-primary);
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      border: 1px solid var(--color-primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .scribe-hd-bar__feat {
+      padding: var(--space-4) var(--space-5);
+      background: #0a3555;
+      border-radius: var(--radius-lg) 0 0 0;
+      color: var(--color-white);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      display: flex;
+      align-items: center;
+    }
+
+    .scribe-hd-bar__col {
+      padding: var(--space-4) var(--space-5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      border-left: 1px solid rgba(255,255,255,0.12);
+      transition: opacity var(--transition-normal);
+    }
+
+    .scribe-hd-bar__col:last-child {
+      border-radius: 0 var(--radius-lg) 0 0;
+    }
+
+    .scribe-hd-bar__col.col-dimmed {
+      opacity: 0.3;
+    }
+
+    .scribe-hd-bar__col a {
+      color: var(--color-white);
+      font-family: var(--font-heading);
+      font-size: var(--text-base);
+      font-weight: var(--weight-bold);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .scribe-hd-bar__col a:hover {
+      text-decoration: underline;
+      color: var(--color-white);
+    }
+
+    .scribe-hd-bar__col .grade-pill {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: var(--weight-semibold);
+      background: rgba(255,255,255,0.18);
+      border-radius: var(--radius-pill);
+      padding: 2px 10px;
+      color: var(--color-white);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Table Wrapper ───────────────────────────────────────── */
+    /*
+      No border-radius on top corners — they're provided by .scribe-hd-bar.
+      overflow-x: auto handles horizontal scroll on narrow screens.
+      margin-top: -1px merges border with the header bar above.
+    */
+    .fc-table-wrap {
+      border: 1px solid var(--color-border);
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+      margin-bottom: var(--space-16);
+      margin-top: -1px;
+      box-shadow: var(--shadow-sm);
+      overflow-x: auto;
+    }
+
+    /* Fixed-layout table — col widths match .scribe-hd-bar grid exactly */
+    .fc-table {
+      table-layout: fixed;
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-sm);
+      min-width: 740px;
+    }
+
+    .fc-table colgroup .col-feat   { width: 210px; }
+    .fc-table colgroup .col-scribe { width: auto;  }
+
+    /* ── Category header rows ───────────────────────────────── */
+    .fc-table tr.cat-row td {
+      background: var(--color-surface);
+      border-top: 2px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      padding: var(--space-3) var(--space-5);
+    }
+    .cat-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      padding: 0;
+      width: 100%;
+      text-align: left;
+    }
+    .cat-toggle-btn .chevron {
+      font-size: 10px;
+      color: var(--color-text-muted);
+      transition: transform var(--transition-fast);
+      flex-shrink: 0;
+    }
+    .cat-toggle-btn.is-collapsed .chevron {
+      transform: rotate(-90deg);
+    }
+    .cat-note {
+      font-weight: var(--weight-regular);
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--color-text-muted);
+      margin-left: 4px;
+    }
+
+    /* ── Data rows ──────────────────────────────────────────── */
+    .fc-table tr.data-row td {
+      padding: var(--space-3) var(--space-5);
+      border-bottom: 1px solid var(--color-border);
+      vertical-align: middle;
+    }
+    .fc-table tr.data-row:last-child td {
+      border-bottom: none;
+    }
+    .fc-table tr.data-row:hover td {
+      background: rgba(15, 76, 117, 0.03);
+    }
+    .fc-table td.feat-name {
+      font-size: var(--text-sm);
+      color: var(--color-text);
+      font-weight: var(--weight-medium);
+      background: var(--color-white);
+    }
+    .fc-table td.val-cell {
+      text-align: center;
+      transition: opacity var(--transition-normal);
+    }
+    .fc-table td.val-cell.col-dimmed {
+      opacity: 0.2;
+    }
+
+    /* ── Badges ─────────────────────────────────────────────── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: var(--weight-semibold);
+      border-radius: var(--radius-sm);
+      padding: 3px 8px;
+      white-space: nowrap;
+    }
+    .badge-yes     { background: #dcfce7; color: #15803d; }
+    .badge-partial { background: #fef3c7; color: #92400e; }
+    .badge-no      { background: #f3f4f6; color: #6b7280; }
+    .badge-unk     { background: #f9fafb; color: #9ca3af; border: 1px solid #e5e7eb; }
+
+    /* Grade pill in column header */
+    .grade-tag {
+      display: inline-block;
+      font-family: var(--font-heading);
+      font-size: var(--text-md);
+      font-weight: var(--weight-black);
+      color: var(--color-white);
+      padding: 3px 12px;
+      border-radius: var(--radius-sm);
+    }
+    .grade-b { background: var(--color-primary); }
+    .grade-c { background: #5a6a7e; }
+
+    /* ── Bottom note ─────────────────────────────────────────── */
+    .fc-footnote {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5) var(--space-6);
+      margin-bottom: var(--space-16);
+      display: flex;
+      gap: var(--space-3);
+      align-items: flex-start;
+    }
+    .fc-footnote i {
+      color: var(--color-primary);
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+    .fc-footnote p {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      margin: 0;
+      line-height: var(--leading-loose);
+    }
+
+    /* ── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .fc-header h1 { font-size: var(--text-2xl); }
+      .fc-controls  { flex-direction: column; }
+    }
+
+  </style>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       NAVIGATION BAR
+       ============================================================ -->
+  <header style="position: sticky; top: 0; z-index: 100;">
+    <nav class="nav" x-data="{ open: false }" aria-label="Main navigation">
+      <div class="nav__inner">
+
+        <a href="index.html" class="nav__logo" aria-label="Clinician Reports — Home">
+          Clinician Reports
+        </a>
+
+        <ul class="nav__links" role="list">
+          <li><a href="index.html"                 class="nav__link">Home</a></li>
+          <li><a href="featuresComparison_v1.html" class="nav__link nav__link--active">AI Scribe Features</a></li>
+          <li><a href="aiScribeReviews_v1.html"    class="nav__link">AI Scribe Reviews</a></li>
+          <li><a href="methodology_v1.html"         class="nav__link">Methodology</a></li>
+          <li><a href="aboutUs_v1.html"             class="nav__link">About</a></li>
+          <li><a href="contactUs_v1.html"           class="btn btn--primary btn--sm">Contact Us</a></li>
+        </ul>
+
+        <button
+          class="nav__toggle"
+          @click="open = !open"
+          :aria-expanded="open"
+          aria-controls="mobile-menu"
+          aria-label="Toggle navigation menu"
+        >
+          <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg x-show="open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+      </div>
+
+      <div id="mobile-menu" class="nav__mobile" x-show="open" x-transition role="navigation" aria-label="Mobile navigation">
+        <a href="index.html"                 class="nav__link">Home</a>
+        <a href="featuresComparison_v1.html" class="nav__link nav__link--active">AI Scribe Features</a>
+        <a href="aiScribeReviews_v1.html"    class="nav__link">AI Scribe Reviews</a>
+        <a href="methodology_v1.html"         class="nav__link">Methodology</a>
+        <a href="aboutUs_v1.html"             class="nav__link">About</a>
+        <a href="contactUs_v1.html"           class="btn btn--primary btn--sm">Contact Us</a>
+      </div>
+    </nav>
+  </header>
+
+
+  <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+  <main id="main-content" aria-label="AI Scribe Feature Comparison" x-data="fcApp()">
+
+    <div class="container">
+
+      <!-- ── Page Header ─────────────────────────────────────── -->
+      <div class="fc-header">
+        <span class="section-label">Side-by-Side Comparison</span>
+        <h1>AI Scribe Feature List</h1>
+        <p class="lead">
+          Compare features across every reviewed AI scribe. Highlight the tools you're considering,
+          collapse sections you don't need, and click any scribe name to go straight to its full review.
+        </p>
+      </div>
+
+      <!-- ── Controls Bar ────────────────────────────────────── -->
+      <div class="fc-controls" role="region" aria-label="Table filters">
+
+        <div class="fc-controls__group">
+          <span class="fc-controls__label">
+            <i class="fa-solid fa-filter" style="margin-right:4px;"></i>Highlight Scribes
+          </span>
+          <div class="fc-controls__toggles">
+            <template x-for="s in scribes" :key="s.id">
+              <button
+                class="scribe-toggle"
+                :class="{ 'is-active': selectedIds.includes(s.id) }"
+                :aria-pressed="selectedIds.includes(s.id)"
+                @click="toggleScribe(s.id)"
+              >
+                <span class="t-dot"></span>
+                <span x-text="s.name"></span>
+              </button>
+            </template>
+            <button
+              class="clear-btn"
+              x-show="selectedIds.length > 0"
+              @click="selectedIds = []"
+              aria-label="Clear all highlights"
+            >
+              <i class="fa-solid fa-xmark" style="font-size:10px;"></i> Clear
+            </button>
+          </div>
+        </div>
+
+        <div class="fc-controls__group">
+          <span class="fc-controls__label">Legend</span>
+          <div class="fc-legend">
+            <div class="legend-item"><div class="legend-dot legend-dot--supported"></div>Supported</div>
+            <div class="legend-item"><div class="legend-dot legend-dot--partial"></div>Partial</div>
+            <div class="legend-item"><div class="legend-dot legend-dot--unlisted"></div>Not Listed</div>
+            <div class="legend-item"><div class="legend-dot legend-dot--unknown"></div>Unknown</div>
+          </div>
+        </div>
+
+      </div><!-- /.fc-controls -->
+
+      <!-- ── Table ───────────────────────────────────────────── -->
+      <!-- ── Sticky scribe header bar (outside overflow container) ── -->
+      <!-- position:sticky works here because there is no overflow      -->
+      <!-- ancestor between this element and the page scroll root.      -->
+      <div class="scribe-hd-bar" role="rowgroup" aria-label="Scribe column headers">
+        <div class="scribe-hd-bar__feat">Feature</div>
+        <template x-for="s in scribes" :key="s.id">
+          <div
+            class="scribe-hd-bar__col"
+            :class="{ 'col-dimmed': isDimmed(s.id) }"
+            role="columnheader"
+          >
+            <a :href="s.link" :aria-label="'Read ' + s.name + ' review'">
+              <span x-text="s.name"></span>
+            </a>
+            <span class="grade-pill" x-text="s.grade"></span>
+          </div>
+        </template>
+      </div>
+
+      <!-- ── Data table (no thead — header is above) ───────────── -->
+      <div class="fc-table-wrap" role="region" aria-label="Feature comparison table" tabindex="0">
+        <table class="fc-table">
+          <colgroup>
+            <col class="col-feat">
+            <col class="col-scribe">
+            <col class="col-scribe">
+            <col class="col-scribe">
+            <col class="col-scribe">
+          </colgroup>
+
+          <tbody>
+
+            <!-- ================================================
+                 SECTION: CLINICAL CODING
+                 =============================================== -->
+            <tr class="cat-row">
+              <td colspan="5">
+                <button
+                  class="cat-toggle-btn"
+                  :class="{ 'is-collapsed': collapsed.coding }"
+                  @click="collapsed.coding = !collapsed.coding"
+                  :aria-expanded="String(!collapsed.coding)"
+                >
+                  <i class="fa-solid fa-chevron-down chevron"></i>
+                  Clinical Coding
+                </button>
+              </td>
+            </tr>
+
+            <template x-for="f in fDefs.coding" :key="f.key">
+              <tr class="data-row" x-show="!collapsed.coding">
+                <td class="feat-name" x-text="f.label"></td>
+                <template x-for="s in scribes" :key="s.id">
+                  <td class="val-cell" :class="{ 'col-dimmed': isDimmed(s.id) }" x-html="badge(s.coding[f.key])"></td>
+                </template>
+              </tr>
+            </template>
+
+
+            <!-- ================================================
+                 SECTION: NOTE & DOCUMENTATION
+                 =============================================== -->
+            <tr class="cat-row">
+              <td colspan="5">
+                <button
+                  class="cat-toggle-btn"
+                  :class="{ 'is-collapsed': collapsed.notes }"
+                  @click="collapsed.notes = !collapsed.notes"
+                  :aria-expanded="String(!collapsed.notes)"
+                >
+                  <i class="fa-solid fa-chevron-down chevron"></i>
+                  Note &amp; Documentation Features
+                </button>
+              </td>
+            </tr>
+
+            <template x-for="f in fDefs.notes" :key="f.key">
+              <tr class="data-row" x-show="!collapsed.notes">
+                <td class="feat-name" x-text="f.label"></td>
+                <template x-for="s in scribes" :key="s.id">
+                  <td class="val-cell" :class="{ 'col-dimmed': isDimmed(s.id) }" x-html="badge(s.notes[f.key])"></td>
+                </template>
+              </tr>
+            </template>
+
+
+            <!-- ================================================
+                 SECTION: EHR INTEGRATION
+                 =============================================== -->
+            <tr class="cat-row">
+              <td colspan="5">
+                <button
+                  class="cat-toggle-btn"
+                  :class="{ 'is-collapsed': collapsed.ehr }"
+                  @click="collapsed.ehr = !collapsed.ehr"
+                  :aria-expanded="String(!collapsed.ehr)"
+                >
+                  <i class="fa-solid fa-chevron-down chevron"></i>
+                  EHR Integration
+                </button>
+              </td>
+            </tr>
+
+            <template x-for="f in fDefs.ehr" :key="f.key">
+              <tr class="data-row" x-show="!collapsed.ehr">
+                <td class="feat-name" x-text="f.label"></td>
+                <template x-for="s in scribes" :key="s.id">
+                  <td class="val-cell" :class="{ 'col-dimmed': isDimmed(s.id) }" x-html="badge(s.ehr[f.key])"></td>
+                </template>
+              </tr>
+            </template>
+
+
+            <!-- ================================================
+                 SECTION: SECURITY & COMPLIANCE
+                 =============================================== -->
+            <tr class="cat-row">
+              <td colspan="5">
+                <button
+                  class="cat-toggle-btn"
+                  :class="{ 'is-collapsed': collapsed.security }"
+                  @click="collapsed.security = !collapsed.security"
+                  :aria-expanded="String(!collapsed.security)"
+                >
+                  <i class="fa-solid fa-chevron-down chevron"></i>
+                  Security &amp; Compliance
+                </button>
+              </td>
+            </tr>
+
+            <template x-for="f in fDefs.security" :key="f.key">
+              <tr class="data-row" x-show="!collapsed.security">
+                <td class="feat-name" x-text="f.label"></td>
+                <template x-for="s in scribes" :key="s.id">
+                  <td class="val-cell" :class="{ 'col-dimmed': isDimmed(s.id) }" x-html="badge(s.security[f.key])"></td>
+                </template>
+              </tr>
+            </template>
+
+
+            <!-- ================================================
+                 SECTION: PRICING & ACCESS
+                 =============================================== -->
+            <tr class="cat-row">
+              <td colspan="5">
+                <button
+                  class="cat-toggle-btn"
+                  :class="{ 'is-collapsed': collapsed.pricing }"
+                  @click="collapsed.pricing = !collapsed.pricing"
+                  :aria-expanded="String(!collapsed.pricing)"
+                >
+                  <i class="fa-solid fa-chevron-down chevron"></i>
+                  Pricing &amp; Access
+                </button>
+              </td>
+            </tr>
+
+            <template x-for="f in fDefs.pricing" :key="f.key">
+              <tr class="data-row" x-show="!collapsed.pricing">
+                <td class="feat-name" x-text="f.label"></td>
+                <template x-for="s in scribes" :key="s.id">
+                  <td class="val-cell" :class="{ 'col-dimmed': isDimmed(s.id) }" x-html="badge(s.pricing[f.key])"></td>
+                </template>
+              </tr>
+            </template>
+
+
+            <!-- ================================================
+                 SECTION: SPECIALTY & LANGUAGE
+                 =============================================== -->
+            <tr class="cat-row">
+              <td colspan="5">
+                <button
+                  class="cat-toggle-btn"
+                  :class="{ 'is-collapsed': collapsed.specialty }"
+                  @click="collapsed.specialty = !collapsed.specialty"
+                  :aria-expanded="String(!collapsed.specialty)"
+                >
+                  <i class="fa-solid fa-chevron-down chevron"></i>
+                  Specialty &amp; Language Support
+                </button>
+              </td>
+            </tr>
+
+            <template x-for="f in fDefs.specialty" :key="f.key">
+              <tr class="data-row" x-show="!collapsed.specialty">
+                <td class="feat-name" x-text="f.label"></td>
+                <template x-for="s in scribes" :key="s.id">
+                  <td class="val-cell" :class="{ 'col-dimmed': isDimmed(s.id) }" x-html="badge(s.specialty[f.key])"></td>
+                </template>
+              </tr>
+            </template>
+
+
+            <!-- ================================================
+                 SECTION: DEVICE & SETTING SUPPORT
+                 =============================================== -->
+            <tr class="cat-row">
+              <td colspan="5">
+                <button
+                  class="cat-toggle-btn"
+                  :class="{ 'is-collapsed': collapsed.devices }"
+                  @click="collapsed.devices = !collapsed.devices"
+                  :aria-expanded="String(!collapsed.devices)"
+                >
+                  <i class="fa-solid fa-chevron-down chevron"></i>
+                  Device &amp; Setting Support
+                </button>
+              </td>
+            </tr>
+
+            <template x-for="f in fDefs.devices" :key="f.key">
+              <tr class="data-row" x-show="!collapsed.devices">
+                <td class="feat-name" x-text="f.label"></td>
+                <template x-for="s in scribes" :key="s.id">
+                  <td class="val-cell" :class="{ 'col-dimmed': isDimmed(s.id) }" x-html="badge(s.devices[f.key])"></td>
+                </template>
+              </tr>
+            </template>
+
+          </tbody>
+        </table>
+      </div><!-- /.fc-table-wrap -->
+
+      <!-- ── Footnote ─────────────────────────────────────────── -->
+      <div class="fc-footnote">
+        <i class="fa-solid fa-circle-info fa-sm"></i>
+        <p>
+          <strong>About this table:</strong> Feature data is sourced from each scribe's public documentation as part of our human factors review process.
+          <em>Not Listed</em> means the feature was not publicly documented at time of review — it may still exist.
+          <em>Unknown</em> means we could not confirm either way.
+          Data last reviewed <strong>April 2026</strong>.
+          <a href="methodology_v1.html" style="margin-left:4px;">Read our full methodology &rarr;</a>
+        </p>
+      </div>
+
+    </div><!-- /.container -->
+
+  </main>
+
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="footer__inner">
+
+      <div class="footer__brand">
+        <a href="index.html" class="footer__logo">Clinician Reports</a>
+        <p class="footer__tagline">
+          Independent human factors evaluations of AI scribe tools —
+          helping you choose the right solution based on safety and efficiency.
+        </p>
+      </div>
+
+      <div style="margin-left: auto;">
+        <p class="footer__col-title">Pages</p>
+        <ul class="footer__links" role="list">
+          <li><a href="index.html"                 class="footer__link">Home</a></li>
+          <li><a href="featuresComparison_v1.html" class="footer__link">AI Scribe Features</a></li>
+          <li><a href="aiScribeReviews_v1.html"    class="footer__link">AI Scribe Reviews</a></li>
+          <li><a href="methodology_v1.html"         class="footer__link">Methodology</a></li>
+          <li><a href="aboutUs_v1.html"             class="footer__link">About Us</a></li>
+          <li><a href="contactUs_v1.html"           class="footer__link">Contact Us</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__copy">
+        &copy; <span id="footer-year"></span> Clinician Reports. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+
+  <!-- ============================================================
+       ALPINE.JS APP DATA
+       ============================================================ -->
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+    function fcApp() {
+      return {
+
+        /* ── Scribe filter state ─────────────────────────────── */
+        selectedIds: [],
+
+        /* ── Section collapse state (false = open) ───────────── */
+        collapsed: {
+          coding:    false,
+          notes:     false,
+          ehr:       false,
+          security:  false,
+          pricing:   false,
+          specialty: false,
+          devices:   false
+        },
+
+        /* ── Scribe definitions ──────────────────────────────── */
+        scribes: [
+          {
+            id: 'freed', name: 'Freed',
+            grade: 'B−', gradeClass: 'grade-b',
+            link: 'review-Freed_v1.html',
+            coding:   { icd10:'Supported',          hcc:'Unknown',           snomed:'Unknown',           em:'Unknown',             cpt:'Unknown'           },
+            notes:    { note:'Supported',            transcript:'Not listed', explainability:'Not listed', safeguards:'Not listed',  chartSum:'Partially Supported', suggestions:'Partially Supported', speaker:'Not listed', postEdit:'Supported', additional:'Partially Supported', templates:'Supported', soap:'Supported', orders:'Not listed', multiSession:'Supported' },
+            ehr:      { general:'Supported',         light:'Not listed',      deep:'Not listed',          epic:'Not listed',        oracle:'Not listed',    athena:'Not listed',  meditech:'Not listed'  },
+            security: { soc2:'Supported',            hipaa:'Supported',       trust:'Not listed',         auth:'Not listed',        retention:'Not listed'  },
+            pricing:  { contact:'Supported',         demos:'Not listed',      trial:'Supported',          usage:'Not listed'        },
+            specialty:{ specialty:'Supported',       nurse:'Unknown',         language:'Unknown',         langOptions:'Unknown',    langCount:'Unknown'     },
+            devices:  { laptop:'Supported',          desktop:'Supported',     phone:'Supported',          tablet:'Supported',       webApp:'Supported',     virtual:'Supported',  ambulatory:'Not listed', ed:'Not listed', telehealth:'Not listed' }
+          },
+          {
+            id: 'suki', name: 'Suki',
+            grade: 'C+', gradeClass: 'grade-c',
+            link: 'review-Suki_v1.html',
+            coding:   { icd10:'Supported',          hcc:'Supported',         snomed:'Unknown',           em:'Supported',           cpt:'Supported'         },
+            notes:    { note:'Supported',            transcript:'Unknown',    explainability:'Unknown',   safeguards:'Unknown',     chartSum:'Supported',   suggestions:'Not listed', speaker:'Partially Supported', postEdit:'Supported', additional:'Partially Supported', templates:'Not listed', soap:'Not listed', orders:'Supported', multiSession:'Supported' },
+            ehr:      { general:'Partially Supported', light:'Not listed',   deep:'Supported',           epic:'Supported',         oracle:'Not listed',    athena:'Not listed',  meditech:'Not listed'  },
+            security: { soc2:'Supported',            hipaa:'Supported',       trust:'Supported',          auth:'Supported',         retention:'Supported'   },
+            pricing:  { contact:'Supported',         demos:'Not listed',      trial:'Unknown',            usage:'Not listed'        },
+            specialty:{ specialty:'Not listed',      nurse:'Not listed',      language:'Not listed',      langOptions:'Not listed', langCount:'Not listed'  },
+            devices:  { laptop:'Supported',          desktop:'Supported',     phone:'Supported',          tablet:'Supported',       webApp:'Supported',     virtual:'Supported',  ambulatory:'Unknown',   ed:'Supported', telehealth:'Supported' }
+          },
+          {
+            id: 'heidi', name: 'Heidi',
+            grade: 'C', gradeClass: 'grade-c',
+            link: 'review-Heidi_v1.html',
+            coding:   { icd10:'Supported',          hcc:'Supported',         snomed:'Supported',         em:'Partially Supported', cpt:'Supported'         },
+            notes:    { note:'Supported',            transcript:'Supported',  explainability:'Supported', safeguards:'Supported',   chartSum:'Supported',   suggestions:'Supported', speaker:'Partially Supported', postEdit:'Supported', additional:'Partially Supported', templates:'Supported', soap:'Supported', orders:'Unknown', multiSession:'Supported' },
+            ehr:      { general:'Partially Supported', light:'Supported',    deep:'Partially Supported', epic:'Supported',         oracle:'Partially Supported', athena:'Supported', meditech:'Unknown' },
+            security: { soc2:'Supported',            hipaa:'Supported',       trust:'Supported',          auth:'Supported',         retention:'Supported'   },
+            pricing:  { contact:'Supported',         demos:'Supported',       trial:'Supported',          usage:'Supported'         },
+            specialty:{ specialty:'Supported',       nurse:'Supported',       language:'Supported',       langOptions:'Supported',  langCount:'Supported'   },
+            devices:  { laptop:'Supported',          desktop:'Supported',     phone:'Supported',          tablet:'Supported',       webApp:'Supported',     virtual:'Supported',  ambulatory:'Supported',  ed:'Supported', telehealth:'Supported' }
+          },
+          {
+            id: 'scribeberry', name: 'Scribeberry',
+            grade: 'C', gradeClass: 'grade-c',
+            link: 'review-Scribeberry_v1.html',
+            coding:   { icd10:'Partially Supported', hcc:'Supported',        snomed:'Unknown',           em:'Unknown',             cpt:'Partially Supported' },
+            notes:    { note:'Supported',             transcript:'Supported', explainability:'Unknown',   safeguards:'Unknown',     chartSum:'Partially Supported', suggestions:'Partially Supported', speaker:'Supported', postEdit:'Supported', additional:'Supported', templates:'Supported', soap:'Supported', orders:'Unknown', multiSession:'Unknown' },
+            ehr:      { general:'Supported',          light:'Supported',      deep:'Unknown',             epic:'Unknown',           oracle:'Unknown',         athena:'Unknown',     meditech:'Unknown'     },
+            security: { soc2:'Supported',             hipaa:'Supported',      trust:'Supported',          auth:'Supported',         retention:'Unknown'       },
+            pricing:  { contact:'Unknown',            demos:'Supported',      trial:'Supported',          usage:'Supported'         },
+            specialty:{ specialty:'Unknown',          nurse:'Partially Supported', language:'Unknown',    langOptions:'Supported',  langCount:'Supported'    },
+            devices:  { laptop:'Supported',           desktop:'Partially Supported', phone:'Partially Supported', tablet:'Supported', webApp:'Supported',   virtual:'Partially Supported', ambulatory:'Supported', ed:'Supported', telehealth:'Partially Supported' }
+          }
+        ],
+
+        /* ── Feature row definitions ─────────────────────────── */
+        fDefs: {
+          coding: [
+            { key:'icd10',  label:'ICD-10 Codes'      },
+            { key:'hcc',    label:'HCC Coding'         },
+            { key:'snomed', label:'SNOMED CT'          },
+            { key:'em',     label:'E/M Coding'         },
+            { key:'cpt',    label:'CPT Codes'          }
+          ],
+          notes: [
+            { key:'note',           label:'Generated Note'                  },
+            { key:'transcript',     label:'Transcript Component'            },
+            { key:'explainability', label:'Transcript Explainability'       },
+            { key:'safeguards',     label:'Safeguards / Clinical Review'    },
+            { key:'chartSum',       label:'Chart Summarization'             },
+            { key:'suggestions',    label:'Suggestions'                     },
+            { key:'speaker',        label:'Speaker Attribution'             },
+            { key:'postEdit',       label:'Post-Generation Note Editing'    },
+            { key:'additional',     label:'Additional Features'             },
+            { key:'templates',      label:'Templates for Docs'              },
+            { key:'soap',           label:'SOAP as Default Format'          },
+            { key:'orders',         label:'Orders'                          },
+            { key:'multiSession',   label:'Multiple Sessions'               }
+          ],
+          ehr: [
+            { key:'general', label:'EHR Integration (General)'       },
+            { key:'light',   label:'EHR Widget — Light Integration'  },
+            { key:'deep',    label:'EHR Integration — Deep'          },
+            { key:'epic',    label:'Epic'                            },
+            { key:'oracle',  label:'Oracle Health'                   },
+            { key:'athena',  label:'athenahealth'                    },
+            { key:'meditech',label:'MEDITECH'                        }
+          ],
+          security: [
+            { key:'soc2',      label:'SOC 2 Type II'                    },
+            { key:'hipaa',     label:'HIPAA Compliance'                  },
+            { key:'trust',     label:'Trust Center / Security Page'      },
+            { key:'auth',      label:'Authentication &amp; Authorization' },
+            { key:'retention', label:'Data Retention Policy'             }
+          ],
+          pricing: [
+            { key:'contact', label:'Contact Required for Pricing' },
+            { key:'demos',   label:'Demos Available'              },
+            { key:'trial',   label:'Trial Period Offered'         },
+            { key:'usage',   label:'Usage / Per-Note Pricing'     }
+          ],
+          specialty: [
+            { key:'specialty',   label:'Specialty Support'        },
+            { key:'nurse',       label:'Nurse / APP Support'      },
+            { key:'language',    label:'Multi-Language Support'   },
+            { key:'langOptions', label:'Language Options Listed'  },
+            { key:'langCount',   label:'Count of Languages'       }
+          ],
+          devices: [
+            { key:'laptop',     label:'Laptop'                              },
+            { key:'desktop',    label:'Desktop'                             },
+            { key:'phone',      label:'Mobile / Phone'                      },
+            { key:'tablet',     label:'Tablet'                              },
+            { key:'webApp',     label:'Web App'                             },
+            { key:'virtual',    label:'Virtual Scribe / Telehealth Mode'    },
+            { key:'ambulatory', label:'Ambulatory / Urgent Care / Home Visits' },
+            { key:'ed',         label:'Emergency Department (ED)'           },
+            { key:'telehealth', label:'Telehealth Setting'                  }
+          ]
+        },
+
+        /* ── Methods ─────────────────────────────────────────── */
+        toggleScribe(id) {
+          if (this.selectedIds.includes(id)) {
+            this.selectedIds = this.selectedIds.filter(x => x !== id);
+          } else {
+            this.selectedIds.push(id);
+          }
+        },
+
+        isDimmed(id) {
+          return this.selectedIds.length > 0 && !this.selectedIds.includes(id);
+        },
+
+        badge(val) {
+          const v = (val || 'Unknown').trim();
+          if (v === 'Supported')
+            return '<span class="badge badge-yes"><i class="fa-solid fa-check" style="font-size:9px;"></i>&nbsp;Supported</span>';
+          if (v === 'Partially Supported')
+            return '<span class="badge badge-partial"><i class="fa-solid fa-circle-half-stroke" style="font-size:9px;"></i>&nbsp;Partial</span>';
+          if (v === 'Not listed')
+            return '<span class="badge badge-no">— Not Listed</span>';
+          return '<span class="badge badge-unk">? Unknown</span>';
+        }
+
+      };
+    }
+  </script>
+
+</body>
+</html>

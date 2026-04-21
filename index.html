@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ============================================================
+     CLINICIAN REPORTS — Homepage  (index.html)
+     Located in /pages/ — all internal links are relative to
+     this folder. CSS/images use ../  to reach root.
+     ============================================================ -->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Clinician Reports — Independent AI Scribe Usability Evaluations</title>
+
+  <meta name="description" content="Independent human factors evaluations of AI scribe tools. Rigorous, evidence-based usability assessments to help clinicians and healthcare organizations make safer, smarter decisions." />
+
+  <!-- Open Graph -->
+  <meta property="og:title"       content="Clinician Reports — Independent AI Scribe Usability Evaluations" />
+  <meta property="og:description" content="Independent human factors evaluations of AI scribe tools. Evidence-based usability assessments for clinicians and healthcare organizations." />
+  <meta property="og:type"        content="website" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Poppins:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Font Awesome 6 -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <!-- Global stylesheet -->
+  <link rel="stylesheet" href="styles/main.css" />
+
+  <!-- ============================================================
+       PAGE-SPECIFIC STYLES
+       ============================================================ -->
+  <style>
+
+    /* ── HERO ────────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, #0F4C75 0%, #0a3555 100%);
+      padding: var(--space-20) var(--space-6);
+      overflow: hidden;
+    }
+
+    .hero__inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: var(--space-16);
+      align-items: center;
+    }
+
+    .hero__heading {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: var(--weight-black);
+      line-height: var(--leading-tight);
+      color: #fff;
+      margin-bottom: var(--space-6);
+    }
+
+    .hero__heading em {
+      font-style: italic;
+      color: var(--color-secondary);
+    }
+
+    .hero__sub {
+      font-family: var(--font-body);
+      font-size: var(--text-md);
+      color: rgba(255, 255, 255, 0.85);
+      line-height: var(--leading-loose);
+      margin-bottom: var(--space-8);
+      max-width: 520px;
+    }
+
+    .hero__actions {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .btn--outline-white {
+      background:   transparent;
+      color:        #fff;
+      border:       2px solid rgba(255, 255, 255, 0.55);
+    }
+
+    .btn--outline-white:hover {
+      background:   rgba(255, 255, 255, 0.12);
+      border-color: #fff;
+      color:        #fff;
+    }
+
+    /* ── HERO SCORECARD ──────────────────────────────────────── */
+    .scorecard {
+      background:    #fff;
+      border-radius: var(--radius-xl);
+      padding:       var(--space-8);
+      box-shadow:    var(--shadow-lg);
+    }
+
+    .scorecard__header {
+      padding-bottom: var(--space-5);
+      border-bottom:  1px solid var(--color-border);
+      margin-bottom:  var(--space-5);
+    }
+
+    .scorecard__title {
+      font-family:   var(--font-heading);
+      font-size:     var(--text-lg);
+      font-weight:   var(--weight-bold);
+      color:         var(--color-primary);
+      margin:        0 0 var(--space-1) 0;
+    }
+
+    .scorecard__subtitle {
+      font-size: var(--text-xs);
+      color:     var(--color-text-muted);
+      margin:    0;
+    }
+
+    .scorecard__row {
+      display:         flex;
+      align-items:     center;
+      gap:             var(--space-3);
+      padding:         var(--space-3) var(--space-2);
+      border-bottom:   1px solid var(--color-border);
+      border-radius:   var(--radius-sm);
+      text-decoration: none;
+      transition:      background var(--transition-fast);
+      margin:          0 calc(-1 * var(--space-2));
+    }
+
+    .scorecard__row:last-of-type { border-bottom: none; }
+
+    a.scorecard__row:hover {
+      background:      var(--color-surface);
+      text-decoration: none;
+    }
+
+    .grade-pill {
+      display:         inline-flex;
+      align-items:     center;
+      justify-content: center;
+      width:           42px;
+      height:          42px;
+      border-radius:   var(--radius-md);
+      font-family:     var(--font-heading);
+      font-size:       var(--text-sm);
+      font-weight:     var(--weight-black);
+      color:           #fff;
+      flex-shrink:     0;
+    }
+
+    .grade-pill--b  { background: var(--color-primary); }
+    .grade-pill--c  { background: #d4722a; }
+
+    .scorecard__name {
+      flex:        1;
+      font-size:   var(--text-sm);
+      font-weight: var(--weight-medium);
+      color:       var(--color-text);
+    }
+
+    .score-bar-wrap {
+      flex:          1;
+      height:        6px;
+      background:    var(--color-border);
+      border-radius: var(--radius-pill);
+      overflow:      hidden;
+    }
+
+    .score-bar-fill {
+      height:        100%;
+      border-radius: var(--radius-pill);
+    }
+
+    .score-bar-fill--b { background: var(--color-primary); }
+    .score-bar-fill--c { background: #d4722a; }
+
+    .scorecard__num {
+      font-size:   var(--text-xs);
+      font-weight: var(--weight-semibold);
+      color:       var(--color-text-muted);
+      min-width:   30px;
+      text-align:  right;
+    }
+
+    .scorecard__footer {
+      margin-top:  var(--space-5);
+      padding-top: var(--space-4);
+      border-top:  1px solid var(--color-border);
+      font-size:   var(--text-xs);
+      color:       var(--color-text-muted);
+      display:     flex;
+      align-items: center;
+      gap:         var(--space-2);
+    }
+
+    /* ── STATS BAR ───────────────────────────────────────────── */
+    .stats-bar {
+      background: var(--color-primary);
+      padding:    var(--space-10) var(--space-6);
+    }
+
+    .stats-bar__inner {
+      max-width:       var(--max-width);
+      margin:          0 auto;
+      display:         flex;
+      justify-content: space-around;
+      flex-wrap:       wrap;
+      gap:             var(--space-8);
+    }
+
+    .stat-item {
+      text-align:  center;
+      display:     flex;
+      align-items: center;
+      gap:         var(--space-4);
+    }
+
+    .stat-item__icon {
+      font-size:   1.6rem;
+      color:       var(--color-secondary);
+      flex-shrink: 0;
+    }
+
+    .stat-item__label {
+      font-size:      var(--text-sm);
+      font-weight:    var(--weight-semibold);
+      letter-spacing: 0.04em;
+      color:          rgba(255, 255, 255, 0.90);
+      text-align:     left;
+    }
+
+    /* ── SECTION TYPOGRAPHY HELPERS ─────────────────────────── */
+    .section-heading {
+      font-family:   var(--font-heading);
+      font-size:     var(--text-3xl);
+      font-weight:   var(--weight-black);
+      color:         var(--color-primary);
+      margin-bottom: var(--space-4);
+    }
+
+    .section-intro {
+      font-size:   var(--text-md);
+      color:       var(--color-text-muted);
+      line-height: var(--leading-loose);
+      max-width:   640px;
+      margin:      0;
+    }
+
+    /* ── AUDIENCE CARDS ──────────────────────────────────────── */
+    .audience-grid {
+      display:               grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:                   var(--space-6);
+      margin-top:            var(--space-10);
+    }
+
+    .audience-card {
+      background:    var(--color-white);
+      border:        1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding:       var(--space-8);
+      display:       flex;
+      flex-direction: column;
+      gap:           var(--space-4);
+      transition:    box-shadow var(--transition-normal), transform var(--transition-normal);
+    }
+
+    .audience-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform:  translateY(-3px);
+    }
+
+    .audience-card__icon {
+      width:           48px;
+      height:          48px;
+      border-radius:   var(--radius-md);
+      background:      var(--color-secondary);
+      display:         flex;
+      align-items:     center;
+      justify-content: center;
+      color:           var(--color-primary);
+      font-size:       1.2rem;
+      flex-shrink:     0;
+    }
+
+    .audience-card__title {
+      font-family:   var(--font-heading);
+      font-size:     var(--text-lg);
+      font-weight:   var(--weight-bold);
+      color:         var(--color-primary);
+      margin:        0;
+    }
+
+    .audience-card__body {
+      font-size:   var(--text-sm);
+      color:       var(--color-text-muted);
+      line-height: var(--leading-loose);
+      margin:      0;
+      flex:        1;
+    }
+
+    /* ── PROCESS STEPS ───────────────────────────────────────── */
+    .process-grid {
+      display:               grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:                   var(--space-8);
+      margin-top:            var(--space-10);
+      position:              relative;
+    }
+
+    /* Connecting line between steps */
+    .process-grid::before {
+      content:          '';
+      position:         absolute;
+      top:              21px;
+      left:             calc(44px / 2 + 1px);
+      right:            calc(44px / 2 + 1px);
+      height:           2px;
+      background:       var(--color-border);
+      z-index:          0;
+    }
+
+    .process-step { position: relative; z-index: 1; }
+
+    .process-step__number {
+      display:         inline-flex;
+      align-items:     center;
+      justify-content: center;
+      width:           44px;
+      height:          44px;
+      border-radius:   50%;
+      background:      var(--color-secondary);
+      color:           var(--color-primary);
+      font-family:     var(--font-heading);
+      font-size:       var(--text-sm);
+      font-weight:     var(--weight-black);
+      margin-bottom:   var(--space-5);
+      border:          3px solid #fff;
+      box-shadow:      var(--shadow-sm);
+    }
+
+    .process-step__phase {
+      font-size:      var(--text-xs);
+      font-weight:    var(--weight-semibold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color:          var(--color-text-muted);
+      margin-bottom:  var(--space-2);
+    }
+
+    .process-step__title {
+      font-family:   var(--font-heading);
+      font-size:     var(--text-md);
+      font-weight:   var(--weight-bold);
+      color:         var(--color-primary);
+      line-height:   var(--leading-snug);
+      margin-bottom: var(--space-3);
+    }
+
+    .process-step__body {
+      font-size:   var(--text-sm);
+      color:       var(--color-text-muted);
+      line-height: var(--leading-loose);
+    }
+
+    /* ── WHY THIS MATTERS ────────────────────────────────────── */
+    .why-section {
+      padding: var(--space-16) var(--space-6);
+    }
+
+    .why-inner {
+      max-width: var(--max-width);
+      margin:    0 auto;
+      display:   grid;
+      grid-template-columns: 1fr;
+      gap:       var(--space-10);
+    }
+
+    .why-quote {
+      font-family:  var(--font-heading);
+      font-size:    var(--text-xl);
+      font-style:   italic;
+      font-weight:  var(--weight-regular);
+      color:        var(--color-primary);
+      line-height:  var(--leading-snug);
+      border-left:  4px solid var(--color-secondary);
+      padding-left: var(--space-6);
+      margin:       var(--space-8) 0;
+    }
+
+    .why-body {
+      font-size:     var(--text-sm);
+      color:         var(--color-text-muted);
+      line-height:   var(--leading-loose);
+      margin-bottom: var(--space-4);
+    }
+
+    .credentials-list {
+      display:        flex;
+      flex-direction: column;
+      gap:            var(--space-4);
+      margin-top:     var(--space-6);
+    }
+
+    .credential-item {
+      display:     flex;
+      align-items: flex-start;
+      gap:         var(--space-3);
+      font-size:   var(--text-sm);
+      color:       var(--color-text);
+      line-height: var(--leading-snug);
+    }
+
+    .credential-item i {
+      color:      var(--color-secondary-dark);
+      font-size:  var(--text-base);
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+
+    /* ── EVALUATION CARDS ────────────────────────────────────── */
+    .eval-grid {
+      display:               grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:                   var(--space-8);
+      margin-top:            var(--space-8);
+    }
+
+    .eval-card {
+      background:    var(--color-white);
+      border:        1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      overflow:      hidden;
+      display:       flex;
+      flex-direction: column;
+      transition:    box-shadow var(--transition-normal), transform var(--transition-normal);
+    }
+
+    .eval-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform:  translateY(-3px);
+    }
+
+    .eval-card__header {
+      background:      var(--color-primary);
+      padding:         var(--space-6) var(--space-8);
+      display:         flex;
+      align-items:     center;
+      justify-content: space-between;
+      gap:             var(--space-4);
+    }
+
+    .eval-card__product {
+      font-family: var(--font-heading);
+      font-size:   var(--text-2xl);
+      font-weight: var(--weight-black);
+      color:       #fff;
+      margin:      0 0 var(--space-1) 0;
+    }
+
+    .eval-card__meta {
+      font-size: var(--text-xs);
+      color:     rgba(255, 255, 255, 0.75);
+      margin:    0;
+    }
+
+    .eval-grade {
+      display:         flex;
+      flex-direction:  column;
+      align-items:     center;
+      gap:             var(--space-1);
+    }
+
+    .eval-grade__badge {
+      display:         inline-flex;
+      align-items:     center;
+      justify-content: center;
+      width:           52px;
+      height:          52px;
+      border-radius:   var(--radius-md);
+      background:      rgba(255, 255, 255, 0.15);
+      font-family:     var(--font-heading);
+      font-size:       var(--text-xl);
+      font-weight:     var(--weight-black);
+      color:           #fff;
+      border:          2px solid rgba(255, 255, 255, 0.35);
+    }
+
+    .eval-grade__score {
+      font-size: var(--text-xs);
+      color:     rgba(255, 255, 255, 0.75);
+    }
+
+    .eval-card__body {
+      padding: var(--space-8);
+      flex:    1;
+    }
+
+    /* Severity distribution grid */
+    .severity-dist {
+      display:               grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:                   var(--space-3);
+      margin-bottom:         var(--space-6);
+      padding-bottom:        var(--space-6);
+      border-bottom:         1px solid var(--color-border);
+    }
+
+    .severity-item { text-align: center; }
+
+    .severity-item__count {
+      font-family:   var(--font-heading);
+      font-size:     var(--text-2xl);
+      font-weight:   var(--weight-black);
+      line-height:   1;
+      margin-bottom: var(--space-1);
+    }
+
+    .severity-item__label {
+      font-size:   var(--text-xs);
+      font-weight: var(--weight-semibold);
+      color:       var(--color-text-muted);
+    }
+
+    .sev--critical { color: #c0392b; }
+    .sev--major    { color: #d4722a; }
+    .sev--minor    { color: var(--color-primary); }
+    .sev--info     { color: var(--color-text-muted); }
+
+    /* Individual findings */
+    .findings-label {
+      font-family:    var(--font-body);
+      font-size:      var(--text-xs);
+      font-weight:    var(--weight-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color:          var(--color-text-muted);
+      margin-bottom:  var(--space-5);
+    }
+
+    .finding-item {
+      margin-bottom:  var(--space-5);
+      padding-bottom: var(--space-5);
+      border-bottom:  1px solid var(--color-border);
+    }
+
+    .finding-item:last-of-type {
+      border-bottom:  none;
+      margin-bottom:  0;
+      padding-bottom: 0;
+    }
+
+    .finding-badge {
+      display:        inline-flex;
+      align-items:    center;
+      gap:            var(--space-1);
+      font-size:      var(--text-xs);
+      font-weight:    var(--weight-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding:        3px var(--space-3);
+      border-radius:  var(--radius-pill);
+      margin-bottom:  var(--space-2);
+    }
+
+    .finding-badge--critical {
+      background: rgba(192, 57, 43, 0.10);
+      color:      #c0392b;
+    }
+
+    .finding-badge--major {
+      background: rgba(212, 114, 42, 0.12);
+      color:      #a85520;
+    }
+
+    .finding-title {
+      font-family:   var(--font-heading);
+      font-size:     var(--text-base);
+      font-weight:   var(--weight-bold);
+      color:         var(--color-primary);
+      margin-bottom: var(--space-2);
+    }
+
+    .finding-desc {
+      font-size:   var(--text-sm);
+      color:       var(--color-text-muted);
+      line-height: var(--leading-loose);
+      margin:      0 0 var(--space-2) 0;
+    }
+
+    .finding-heuristics {
+      font-size:   var(--text-xs);
+      color:       var(--color-text-muted);
+      font-style:  italic;
+    }
+
+    .eval-card__footer {
+      padding:    var(--space-5) var(--space-8);
+      background: var(--color-surface);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .more-findings-note {
+      font-size:     var(--text-sm);
+      color:         var(--color-text-muted);
+      line-height:   var(--leading-loose);
+      margin-bottom: var(--space-4);
+    }
+
+    /* ── UPCOMING EVALUATIONS ────────────────────────────────── */
+    .upcoming-strip {
+      display:        flex;
+      gap:            var(--space-5);
+      margin-top:     var(--space-8);
+      overflow-x:     auto;
+      padding-bottom: var(--space-2);
+      /* Hide scrollbar but keep functionality */
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-border) transparent;
+    }
+
+    .upcoming-card {
+      flex:           0 0 auto;
+      min-width:      280px;
+      background:     var(--color-white);
+      border:         1px solid var(--color-border);
+      border-radius:  var(--radius-lg);
+      padding:        var(--space-6);
+      display:        flex;
+      flex-direction: column;
+      gap:            var(--space-3);
+      transition:     box-shadow var(--transition-normal);
+    }
+
+    .upcoming-card:hover { box-shadow: var(--shadow-md); }
+
+    .upcoming-card__name {
+      font-family:   var(--font-heading);
+      font-size:     var(--text-lg);
+      font-weight:   var(--weight-bold);
+      color:         var(--color-primary);
+      margin:        0;
+    }
+
+    .upcoming-card__desc {
+      font-size:   var(--text-sm);
+      color:       var(--color-text-muted);
+      line-height: var(--leading-loose);
+      margin:      0;
+      flex:        1;
+    }
+
+    .upcoming-card__tags {
+      display:   flex;
+      flex-wrap: wrap;
+      gap:       var(--space-2);
+    }
+
+    /* ── CTA BANNER ──────────────────────────────────────────── */
+    .cta-banner {
+      background: linear-gradient(135deg, #0a3555 0%, #0F4C75 100%);
+      padding:    var(--space-20) var(--space-6);
+      text-align: center;
+    }
+
+    .cta-banner__inner {
+      max-width: 680px;
+      margin:    0 auto;
+    }
+
+    .cta-banner__heading {
+      font-family:   var(--font-heading);
+      font-size:     var(--text-3xl);
+      font-weight:   var(--weight-black);
+      color:         #fff;
+      margin-bottom: var(--space-4);
+    }
+
+    .cta-banner__sub {
+      font-size:     var(--text-md);
+      color:         rgba(255, 255, 255, 0.85);
+      line-height:   var(--leading-loose);
+      margin-bottom: var(--space-8);
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .process-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      /* Hide the connecting line on tablet */
+      .process-grid::before { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      .hero__inner           { grid-template-columns: 1fr; gap: var(--space-10); }
+      .audience-grid         { grid-template-columns: 1fr; }
+      .eval-grid             { grid-template-columns: 1fr; }
+      /* why-inner already single column */
+      .process-grid          { grid-template-columns: 1fr; }
+      .stats-bar__inner      { gap: var(--space-6); }
+      .why-section           { padding: var(--space-12) var(--space-6); }
+    }
+
+    @media (max-width: 480px) {
+      .hero__actions   { flex-direction: column; }
+      .severity-dist   { grid-template-columns: repeat(2, 1fr); }
+    }
+
+  </style>
+
+  <!-- Alpine.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       Active link: Home
+       ============================================================ -->
+  <header style="position: sticky; top: 0; z-index: 100;">
+    <nav class="nav" x-data="{ open: false }" aria-label="Main navigation">
+
+      <div class="nav__inner">
+
+        <!-- Logo -->
+        <a href="index.html" class="nav__logo" aria-label="Clinician Reports — Home">
+          Clinician Reports
+        </a>
+
+        <!-- Desktop links -->
+        <ul class="nav__links" role="list">
+          <li><a href="index.html"                 class="nav__link nav__link--active">Home</a></li>
+          <li><a href="featuresComparison_v1.html" class="nav__link">AI Scribe Features</a></li>
+          <li><a href="aiScribeReviews_v1.html"    class="nav__link">AI Scribe Reviews</a></li>
+          <li><a href="methodology_v1.html"        class="nav__link">Methodology</a></li>
+          <li><a href="aboutUs_v1.html"            class="nav__link">About</a></li>
+          <li><a href="contactUs_v1.html"          class="btn btn--primary btn--sm">Contact Us</a></li>
+        </ul>
+
+        <!-- Mobile toggle -->
+        <button
+          class="nav__toggle"
+          @click="open = !open"
+          :aria-expanded="open"
+          aria-controls="mobile-menu"
+          aria-label="Toggle navigation menu"
+        >
+          <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg x-show="open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+      </div><!-- /.nav__inner -->
+
+      <!-- Mobile drawer -->
+      <div
+        id="mobile-menu"
+        class="nav__mobile"
+        x-show="open"
+        x-transition
+        role="navigation"
+        aria-label="Mobile navigation"
+      >
+        <a href="index.html"                 class="nav__link nav__link--active">Home</a>
+        <a href="featuresComparison_v1.html" class="nav__link">AI Scribe Features</a>
+        <a href="aiScribeReviews_v1.html"    class="nav__link">AI Scribe Reviews</a>
+        <a href="methodology_v1.html"        class="nav__link">Methodology</a>
+        <a href="aboutUs_v1.html"            class="nav__link">About</a>
+        <a href="contactUs_v1.html"          class="btn btn--primary btn--sm">Contact Us</a>
+      </div>
+
+    </nav>
+  </header>
+
+
+  <main id="main-content" aria-label="Page content">
+
+
+    <!-- ============================================================
+         SECTION 1 — HERO
+         Left: headline + subhead + 2 CTAs
+         Right: scorecard widget showing all 4 scribes
+         ============================================================ -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero__inner">
+
+        <!-- ── Left: Copy ── -->
+        <div>
+          <h1 class="hero__heading" id="hero-heading">
+            AI scribes should be <em>safe</em> to use, not just smart.
+          </h1>
+
+          <p class="hero__sub">
+            We evaluate ambient AI clinical documentation tools through rigorous human factors assessment — so clinicians and healthcare organizations can make informed, evidence-based decisions.
+          </p>
+
+          <div class="hero__actions">
+            <a href="aiScribeReviews_v1.html" class="btn btn--accent btn--lg">
+              <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+              View Evaluations
+            </a>
+            <a href="methodology_v1.html" class="btn btn--outline-white btn--lg">
+              Learn Our Methodology
+            </a>
+          </div>
+        </div>
+
+        <!-- ── Right: Scorecard widget ── -->
+        <div aria-label="Sample evaluation scorecard">
+          <div class="scorecard">
+
+            <div class="scorecard__header">
+              <h2 class="scorecard__title">2025 Evaluation Scorecard</h2>
+              <p class="scorecard__subtitle">Human factors assessment &middot; Outpatient primary care</p>
+            </div>
+
+            <!-- Freed: B- / 81.2 -->
+            <a href="review-Freed_v1.html" class="scorecard__row" aria-label="View Freed evaluation — Grade B minus, score 81.2">
+              <span class="grade-pill grade-pill--b" aria-hidden="true">B&minus;</span>
+              <span class="scorecard__name">Freed</span>
+              <div class="score-bar-wrap" role="progressbar" aria-valuenow="81" aria-valuemin="0" aria-valuemax="100" aria-label="Freed score 81.2">
+                <div class="score-bar-fill score-bar-fill--b" style="width: 81.2%;"></div>
+              </div>
+              <span class="scorecard__num">81.2</span>
+            </a>
+
+            <!-- Suki: C+ / 77.3 -->
+            <a href="review-Suki_v1.html" class="scorecard__row" aria-label="View Suki evaluation — Grade C plus, score 77.3">
+              <span class="grade-pill grade-pill--c" aria-hidden="true">C+</span>
+              <span class="scorecard__name">Suki</span>
+              <div class="score-bar-wrap" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" aria-label="Suki score 77.3">
+                <div class="score-bar-fill score-bar-fill--c" style="width: 77.3%;"></div>
+              </div>
+              <span class="scorecard__num">77.3</span>
+            </a>
+
+            <!-- Heidi: C / 74.0 -->
+            <a href="review-Heidi_v1.html" class="scorecard__row" aria-label="View Heidi evaluation — Grade C, score 74.0">
+              <span class="grade-pill grade-pill--c" aria-hidden="true">C</span>
+              <span class="scorecard__name">Heidi</span>
+              <div class="score-bar-wrap" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" aria-label="Heidi score 74.0">
+                <div class="score-bar-fill score-bar-fill--c" style="width: 74%;"></div>
+              </div>
+              <span class="scorecard__num">74.0</span>
+            </a>
+
+            <!-- Scribeberry: C / 73.6 -->
+            <a href="review-Scribeberry_v1.html" class="scorecard__row" aria-label="View Scribeberry evaluation — Grade C, score 73.6">
+              <span class="grade-pill grade-pill--c" aria-hidden="true">C</span>
+              <span class="scorecard__name">Scribeberry</span>
+              <div class="score-bar-wrap" role="progressbar" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100" aria-label="Scribeberry score 73.6">
+                <div class="score-bar-fill score-bar-fill--c" style="width: 73.6%;"></div>
+              </div>
+              <span class="scorecard__num">73.6</span>
+            </a>
+
+            <p class="scorecard__footer">
+              <i class="fa-solid fa-circle-check" aria-hidden="true" style="color: var(--color-secondary-dark);"></i>
+              Independent &middot; No vendor relationships &middot; Evidence-based
+            </p>
+
+          </div>
+        </div><!-- /.hero__visual -->
+
+      </div><!-- /.hero__inner -->
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 2 — STATS BAR
+         ============================================================ -->
+    <section class="stats-bar" aria-label="Evaluation statistics at a glance">
+      <div class="stats-bar__inner">
+
+        <div class="stat-item">
+          <div class="stat-item__icon" aria-hidden="true"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <div class="stat-item__label">Independent Reviews</div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-item__icon" aria-hidden="true"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="stat-item__label">No Vendor Involvement</div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-item__icon" aria-hidden="true"><i class="fa-solid fa-flask"></i></div>
+          <div class="stat-item__label">Evidence-Based Evaluations</div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 3 — WHO THIS IS FOR
+         ============================================================ -->
+    <section class="section section--alt" aria-labelledby="audience-heading">
+      <div class="container">
+
+        <span class="section-label">Who This Is For</span>
+        <h2 class="section-heading" id="audience-heading">
+          Built for everyone navigating this market
+        </h2>
+        <p class="section-intro">
+          Whether you're a clinician choosing a tool, an IT leader evaluating vendors, or a researcher studying clinical AI, our evaluations give you the evidence you need.
+        </p>
+
+        <div class="audience-grid">
+
+          <!-- Clinicians -->
+          <div class="audience-card">
+            <div class="audience-card__icon" aria-hidden="true">
+              <i class="fa-solid fa-stethoscope"></i>
+            </div>
+            <h3 class="audience-card__title">Clinicians &amp; Practitioners</h3>
+            <p class="audience-card__body">
+              Understand which AI scribes will fit your workflow safely — before you commit to a platform. See usability findings that go beyond marketing claims.
+            </p>
+            <a href="aiScribeReviews_v1.html" class="btn btn--secondary btn--sm">View Evaluations</a>
+          </div>
+
+          <!-- IT & Procurement -->
+          <div class="audience-card">
+            <div class="audience-card__icon" aria-hidden="true">
+              <i class="fa-solid fa-building"></i>
+            </div>
+            <h3 class="audience-card__title">IT &amp; Procurement Teams</h3>
+            <p class="audience-card__body">
+              Compare features, integration requirements, and usability scores across platforms. Export data to support vendor selection and RFP processes.
+            </p>
+            <a href="featuresComparison_v1.html" class="btn btn--secondary btn--sm">See Comparison Table</a>
+          </div>
+
+          <!-- Researchers -->
+          <div class="audience-card">
+            <div class="audience-card__icon" aria-hidden="true">
+              <i class="fa-solid fa-microscope"></i>
+            </div>
+            <h3 class="audience-card__title">Researchers &amp; Educators</h3>
+            <p class="audience-card__body">
+              Our structured, heuristic-based framework is fully documented. Explore our methodology, clinical workflow definitions, and severity rating rationale.
+            </p>
+            <a href="methodology_v1.html" class="btn btn--secondary btn--sm">Read Methodology</a>
+          </div>
+
+        </div><!-- /.audience-grid -->
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 4 — OUR PROCESS
+         ============================================================ -->
+    <section class="section" aria-labelledby="process-heading">
+      <div class="container">
+
+        <span class="section-label">Our Process</span>
+        <h2 class="section-heading" id="process-heading">Rigorous by design</h2>
+        <p class="section-intro">
+          Every evaluation follows a structured four-phase methodology developed specifically for clinical AI tools — combining established human factors engineering with real-world clinical workflow validation.
+        </p>
+
+        <div class="process-grid">
+
+          <div class="process-step">
+            <div class="process-step__number" aria-hidden="true">01</div>
+            <p class="process-step__phase">Phase 01</p>
+            <h3 class="process-step__title">Clinical Workflow Development</h3>
+            <p class="process-step__body">
+              We define and validate an 8-step outpatient workflow through direct clinician observation — from pre-charting to final sign-off.
+            </p>
+          </div>
+
+          <div class="process-step">
+            <div class="process-step__number" aria-hidden="true">02</div>
+            <p class="process-step__phase">Phase 02</p>
+            <h3 class="process-step__title">Independent Heuristic Evaluation</h3>
+            <p class="process-step__body">
+              Two blinded experts assess each product against Nielsen's 10 heuristics at every workflow step, then reconcile findings through structured consensus.
+            </p>
+          </div>
+
+          <div class="process-step">
+            <div class="process-step__number" aria-hidden="true">03</div>
+            <p class="process-step__phase">Phase 03</p>
+            <h3 class="process-step__title">Structured Synthesis</h3>
+            <p class="process-step__body">
+              Findings are organized by workflow stage, heuristic category, and severity — producing visual summaries that highlight patterns across the interface.
+            </p>
+          </div>
+
+          <div class="process-step">
+            <div class="process-step__number" aria-hidden="true">04</div>
+            <p class="process-step__phase">Phase 04</p>
+            <h3 class="process-step__title">Clinical SME Validation</h3>
+            <p class="process-step__body">
+              A physician with clinical informatics expertise conducts a task-based review to confirm findings are meaningful from a practicing clinician's perspective.
+            </p>
+          </div>
+
+        </div><!-- /.process-grid -->
+
+        <div style="margin-top: var(--space-10); text-align: center;">
+          <a href="methodology_v1.html" class="btn btn--secondary">
+            <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+            Read the Full Methodology
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 5 — WHY THIS MATTERS
+         ============================================================ -->
+    <section class="why-section section--alt" aria-labelledby="why-heading">
+      <div class="why-inner">
+
+        <!-- Left: argument -->
+        <div>
+          <span class="section-label">Why This Matters</span>
+          <h2 class="section-heading" id="why-heading">
+            Usability is a patient safety issue.
+          </h2>
+
+          <blockquote class="why-quote">
+            "AI scribes are not standalone algorithms — they are interactive tools embedded within clinical workflows."
+          </blockquote>
+
+          <p class="why-body">
+            The rapid expansion of ambient AI scribes has outpaced independent, public usability assessment. Most evaluations focus on model accuracy or time saved — without examining how clinicians actually interact with these systems.
+          </p>
+          <p class="why-body" style="margin: 0;">
+            Usability failures at any stage of the documentation workflow can affect error detection, appropriate reliance, and documentation integrity — even when the underlying model performs well.
+          </p>
+        </div>
+
+        <!-- Right: credentials -->
+        <div>
+          <h3 style="font-family: var(--font-heading); font-size: var(--text-xl); font-weight: var(--weight-bold); color: var(--color-primary); margin-bottom: var(--space-4);">
+            Who's behind the evaluations
+          </h3>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: var(--leading-loose); margin-bottom: var(--space-2);">
+            Our team combines formal human factors engineering training with clinical informatics expertise to assess these systems against standards that matter in practice.
+          </p>
+
+          <div class="credentials-list">
+            <div class="credential-item">
+              <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+              <span><strong>Human factors engineering</strong> — formal training with clinical systems specialization</span>
+            </div>
+            <div class="credential-item">
+              <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+              <span><strong>Clinical informatics</strong> — practicing physician with dual clinical and informatics expertise</span>
+            </div>
+            <div class="credential-item">
+              <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+              <span><strong>No vendor relationships</strong> — fully independent, reader-supported</span>
+            </div>
+          </div>
+
+          <div style="margin-top: var(--space-8);">
+            <a href="aboutUs_v1.html" class="btn btn--primary">
+              <i class="fa-solid fa-users" aria-hidden="true"></i>
+              Meet the Team
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 6 — PUBLISHED EVALUATIONS
+         ============================================================ -->
+    <section class="section" aria-labelledby="evals-heading">
+      <div class="container">
+
+        <span class="section-label">Published Evaluations</span>
+        <h2 class="section-heading" id="evals-heading">Heuristic Evaluation Results</h2>
+        <p class="section-intro">
+          Independent, expert-led usability assessments evaluated against Nielsen's 10 heuristics across an 8-step outpatient clinical workflow.
+        </p>
+
+        <div class="eval-grid">
+
+          <!-- ────────────────────────────────────────────────────
+               SCRIBEBERRY CARD
+               Data source: ai_scribe_grades.csv
+               Total: 17 findings — 3 critical, 8 major, 4 minor, 2 informational
+               ──────────────────────────────────────────────────── -->
+          <article class="eval-card" aria-labelledby="sb-heading">
+
+            <div class="eval-card__header">
+              <div>
+                <h3 class="eval-card__product" id="sb-heading">Scribeberry</h3>
+                <p class="eval-card__meta">Evaluated March 2025 &middot; Outpatient primary care</p>
+              </div>
+              <div class="eval-grade">
+                <div class="eval-grade__badge" aria-label="Grade C">C</div>
+                <span class="eval-grade__score">73.6 / 100</span>
+              </div>
+            </div>
+
+            <div class="eval-card__body">
+
+              <!-- Severity distribution -->
+              <div class="severity-dist" aria-label="Finding severity distribution">
+                <div class="severity-item">
+                  <div class="severity-item__count sev--critical">3</div>
+                  <div class="severity-item__label">Critical</div>
+                </div>
+                <div class="severity-item">
+                  <div class="severity-item__count sev--major">8</div>
+                  <div class="severity-item__label">Major</div>
+                </div>
+                <div class="severity-item">
+                  <div class="severity-item__count sev--minor">4</div>
+                  <div class="severity-item__label">Minor</div>
+                </div>
+                <div class="severity-item">
+                  <div class="severity-item__count sev--info">2</div>
+                  <div class="severity-item__label">Informational</div>
+                </div>
+              </div>
+
+              <p class="findings-label">Highlighted Findings (2 of 17)</p>
+
+              <!-- Finding 1 -->
+              <div class="finding-item">
+                <span class="finding-badge finding-badge--critical">
+                  <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
+                  Critical
+                </span>
+                <h4 class="finding-title">Recording state ambiguity</h4>
+                <p class="finding-desc">
+                  System recording status is inconsistently communicated across workflow stages, leaving clinicians uncertain whether audio capture is active during the encounter.
+                </p>
+                <p class="finding-heuristics">
+                  Visibility of system status &middot; Consistency &amp; standards
+                </p>
+              </div>
+
+              <!-- Finding 2 -->
+              <div class="finding-item">
+                <span class="finding-badge finding-badge--major">
+                  <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                  Major
+                </span>
+                <h4 class="finding-title">Limited error recovery in note editing</h4>
+                <p class="finding-desc">
+                  No clear undo capability when editing AI-generated notes; original content is not preserved or retrievable after edits are made.
+                </p>
+                <p class="finding-heuristics">
+                  User control &amp; freedom &middot; Error prevention
+                </p>
+              </div>
+
+            </div><!-- /.eval-card__body -->
+
+            <div class="eval-card__footer">
+              <p class="more-findings-note">
+                15 additional findings in the full report — full heuristic matrix, all 8 workflow stages, annotated screenshots, and remediation recommendations.
+              </p>
+              <a href="review-Scribeberry_v1.html" class="btn btn--primary btn--sm">
+                Read Full Report
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </a>
+            </div>
+
+          </article>
+
+
+          <!-- ────────────────────────────────────────────────────
+               HEIDI CARD
+               Data source: ai_scribe_grades.csv
+               Total: 19 findings — 3 critical, 6 major, 7 minor, 3 informational
+               ──────────────────────────────────────────────────── -->
+          <article class="eval-card" aria-labelledby="heidi-heading">
+
+            <div class="eval-card__header">
+              <div>
+                <h3 class="eval-card__product" id="heidi-heading">Heidi</h3>
+                <p class="eval-card__meta">Evaluated March 2025 &middot; Outpatient primary care</p>
+              </div>
+              <div class="eval-grade">
+                <div class="eval-grade__badge" aria-label="Grade C">C</div>
+                <span class="eval-grade__score">74.0 / 100</span>
+              </div>
+            </div>
+
+            <div class="eval-card__body">
+
+              <!-- Severity distribution -->
+              <div class="severity-dist" aria-label="Finding severity distribution">
+                <div class="severity-item">
+                  <div class="severity-item__count sev--critical">3</div>
+                  <div class="severity-item__label">Critical</div>
+                </div>
+                <div class="severity-item">
+                  <div class="severity-item__count sev--major">6</div>
+                  <div class="severity-item__label">Major</div>
+                </div>
+                <div class="severity-item">
+                  <div class="severity-item__count sev--minor">7</div>
+                  <div class="severity-item__label">Minor</div>
+                </div>
+                <div class="severity-item">
+                  <div class="severity-item__count sev--info">3</div>
+                  <div class="severity-item__label">Informational</div>
+                </div>
+              </div>
+
+              <p class="findings-label">Highlighted Findings (2 of 19)</p>
+
+              <!-- Finding 1 -->
+              <div class="finding-item">
+                <span class="finding-badge finding-badge--critical">
+                  <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
+                  Critical
+                </span>
+                <h4 class="finding-title">No EHR upload confirmation state</h4>
+                <p class="finding-desc">
+                  No distinct success state is shown after note submission to the EHR, creating risk that clinicians assume upload succeeded when it may not have completed.
+                </p>
+                <p class="finding-heuristics">
+                  Visibility of system status &middot; Match: system &amp; real world
+                </p>
+              </div>
+
+              <!-- Finding 2 -->
+              <div class="finding-item">
+                <span class="finding-badge finding-badge--major">
+                  <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                  Major
+                </span>
+                <h4 class="finding-title">Consent workflow lacks acknowledgment</h4>
+                <p class="finding-desc">
+                  The patient consent step provides no system confirmation; clinicians must rely on recall to verify consent was recorded before proceeding.
+                </p>
+                <p class="finding-heuristics">
+                  Match: system &amp; real world &middot; Recognition vs. recall
+                </p>
+              </div>
+
+            </div><!-- /.eval-card__body -->
+
+            <div class="eval-card__footer">
+              <p class="more-findings-note">
+                17 additional findings in the full report — full heuristic matrix, all 8 workflow stages, annotated screenshots, and remediation recommendations.
+              </p>
+              <a href="review-Heidi_v1.html" class="btn btn--primary btn--sm">
+                Read Full Report
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </a>
+            </div>
+
+          </article>
+
+          <!-- ────────────────────────────────────────────────────
+               FREED CARD
+               Data source: ai_scribe_grades.csv
+               Total: 22 findings — 0 critical, 9 major, 11 minor, 2 informational
+               ──────────────────────────────────────────────────── -->
+          <article class="eval-card" aria-labelledby="freed-heading">
+
+            <div class="eval-card__header">
+              <div>
+                <h3 class="eval-card__product" id="freed-heading">Freed</h3>
+                <p class="eval-card__meta">Full report in progress &middot; Outpatient primary care</p>
+              </div>
+              <div class="eval-grade">
+                <div class="eval-grade__badge" aria-label="Grade B minus">B&minus;</div>
+                <span class="eval-grade__score">81.2 / 100</span>
+              </div>
+            </div>
+
+            <div class="eval-card__body">
+
+              <!-- Severity distribution -->
+              <div class="severity-dist" aria-label="Finding severity distribution">
+                <div class="severity-item">
+                  <div class="severity-item__count sev--critical">0</div>
+                  <div class="severity-item__label">Critical</div>
+                </div>
+                <div class="severity-item">
+                  <div class="severity-item__count sev--major">9</div>
+                  <div class="severity-item__label">Major</div>
+                </div>
+                <div class="severity-item">
+                  <div class="severity-item__count sev--minor">11</div>
+                  <div class="severity-item__label">Minor</div>
+                </div>
+                <div class="severity-item">
+                  <div class="severity-item__count sev--info">2</div>
+                  <div class="severity-item__label">Informational</div>
+                </div>
+              </div>
+
+              <p class="findings-label">Highlighted Findings</p>
+
+              <div class="finding-item">
+                <span class="finding-badge finding-badge--major">
+                  <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                  Major
+                </span>
+                <h4 class="finding-title">Full report coming soon</h4>
+                <p class="finding-desc">
+                  The full heuristic evaluation for Freed is currently being finalized. Check back for the complete report including all 22 findings, annotated screenshots, and remediation recommendations.
+                </p>
+              </div>
+
+            </div><!-- /.eval-card__body -->
+
+            <div class="eval-card__footer">
+              <p class="more-findings-note">
+                Full heuristic matrix, all 8 workflow stages, and remediation recommendations available in the complete report.
+              </p>
+              <a href="review-Freed_v1.html" class="btn btn--primary btn--sm">
+                View Report
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </a>
+            </div>
+
+          </article>
+
+
+          <!-- ────────────────────────────────────────────────────
+               SUKI CARD
+               Data source: ai_scribe_grades.csv
+               Total: 28 findings — 0 critical, 11 major, 15 minor, 2 informational
+               ──────────────────────────────────────────────────── -->
+          <article class="eval-card" aria-labelledby="suki-heading">
+
+            <div class="eval-card__header">
+              <div>
+                <h3 class="eval-card__product" id="suki-heading">Suki</h3>
+                <p class="eval-card__meta">Full report in progress &middot; Outpatient primary care</p>
+              </div>
+              <div class="eval-grade">
+                <div class="eval-grade__badge" aria-label="Grade C plus">C+</div>
+                <span class="eval-grade__score">77.3 / 100</span>
+              </div>
+            </div>
+
+            <div class="eval-card__body">
+
+              <!-- Severity distribution -->
+              <div class="severity-dist" aria-label="Finding severity distribution">
+                <div class="severity-item">
+                  <div class="severity-item__count sev--critical">0</div>
+                  <div class="severity-item__label">Critical</div>
+                </div>
+                <div class="severity-item">
+                  <div class="severity-item__count sev--major">11</div>
+                  <div class="severity-item__label">Major</div>
+                </div>
+                <div class="severity-item">
+                  <div class="severity-item__count sev--minor">15</div>
+                  <div class="severity-item__label">Minor</div>
+                </div>
+                <div class="severity-item">
+                  <div class="severity-item__count sev--info">2</div>
+                  <div class="severity-item__label">Informational</div>
+                </div>
+              </div>
+
+              <p class="findings-label">Highlighted Findings</p>
+
+              <div class="finding-item">
+                <span class="finding-badge finding-badge--major">
+                  <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                  Major
+                </span>
+                <h4 class="finding-title">Full report coming soon</h4>
+                <p class="finding-desc">
+                  The full heuristic evaluation for Suki is currently being finalized. Check back for the complete report including all 28 findings, annotated screenshots, and remediation recommendations.
+                </p>
+              </div>
+
+            </div><!-- /.eval-card__body -->
+
+            <div class="eval-card__footer">
+              <p class="more-findings-note">
+                Full heuristic matrix, all 8 workflow stages, and remediation recommendations available in the complete report.
+              </p>
+              <a href="review-Suki_v1.html" class="btn btn--primary btn--sm">
+                View Report
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </a>
+            </div>
+
+          </article>
+
+        </div><!-- /.eval-grid -->
+
+
+        <!-- ── Upcoming Evaluations ── -->
+        <div style="margin-top: var(--space-12);">
+          <span class="section-label">Upcoming Evaluations</span>
+
+          <div class="upcoming-strip" aria-label="Upcoming product evaluations">
+
+            <div class="upcoming-card" style="max-width: 360px;">
+              <h4 class="upcoming-card__name">Abridge</h4>
+              <p class="upcoming-card__desc">
+                AI-powered clinical conversation summarization and structured note generation.
+              </p>
+              <div class="upcoming-card__tags">
+                <span class="tag">Hospital</span>
+                <span class="tag">Epic integrated</span>
+              </div>
+              <a href="contactUs_v1.html" class="btn btn--ghost btn--sm" style="margin-top: var(--space-2);">
+                <i class="fa-regular fa-bell" aria-hidden="true"></i>
+                Notify me when published
+              </a>
+            </div>
+
+          </div><!-- /.upcoming-strip -->
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 7 — CTA BANNER
+         Primary CTA as specified in context doc
+         ============================================================ -->
+    <section class="cta-banner" aria-labelledby="cta-heading">
+      <div class="cta-banner__inner">
+
+        <h2 class="cta-banner__heading" id="cta-heading">
+          Have questions or want to collaborate?
+        </h2>
+        <p class="cta-banner__sub">
+          We welcome outreach from clinicians, researchers, healthcare organizations, and journalists. Whether you want to discuss our methodology, explore a partnership, or request access to a full report — we'd love to hear from you.
+        </p>
+        <a href="contactUs_v1.html" class="btn btn--accent btn--lg">
+          <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+          Get in Touch
+        </a>
+
+      </div>
+    </section>
+
+
+  </main><!-- /#main-content -->
+
+
+  <!-- ============================================================
+       FOOTER
+       Three-column: brand | pages | evaluations
+       ============================================================ -->
+  <footer class="footer" aria-label="Site footer">
+
+    <div class="footer__inner">
+
+      <!-- Column 1: Brand -->
+      <div class="footer__brand">
+        <a href="index.html" class="footer__logo">Clinician Reports</a>
+        <p class="footer__tagline">
+          Independent human factors evaluations of AI scribe tools —
+          helping you choose the right solution based on safety and efficiency.
+        </p>
+      </div>
+
+      <!-- Column 2: Pages -->
+      <div>
+        <p class="footer__col-title">Pages</p>
+        <ul class="footer__links" role="list">
+          <li><a href="index.html"                 class="footer__link">Home</a></li>
+          <li><a href="featuresComparison_v1.html" class="footer__link">AI Scribe Features</a></li>
+          <li><a href="aiScribeReviews_v1.html"    class="footer__link">AI Scribe Reviews</a></li>
+          <li><a href="methodology_v1.html"        class="footer__link">Methodology</a></li>
+          <li><a href="aboutUs_v1.html"            class="footer__link">About Us</a></li>
+          <li><a href="contactUs_v1.html"          class="footer__link">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Evaluations -->
+      <div>
+        <p class="footer__col-title">Evaluations</p>
+        <ul class="footer__links" role="list">
+          <li><a href="review-Scribeberry_v1.html" class="footer__link">Scribeberry</a></li>
+          <li><a href="review-Heidi_v1.html"       class="footer__link">Heidi</a></li>
+          <li><a href="review-Freed_v1.html"       class="footer__link">Freed</a></li>
+          <li><a href="review-Suki_v1.html"        class="footer__link">Suki</a></li>
+        </ul>
+      </div>
+
+    </div><!-- /.footer__inner -->
+
+    <!-- Bottom bar -->
+    <div class="footer__bottom">
+      <p class="footer__copy">
+        &copy; <span id="footer-year"></span> Clinician Reports. All rights reserved.
+      </p>
+      <p class="footer__copy">
+        No vendor relationships. Fully independent, reader-supported.
+      </p>
+    </div>
+
+  </footer>
+
+  <!-- Auto-update copyright year -->
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

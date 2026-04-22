@@ -25,7 +25,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <!-- Global stylesheet -->
-  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="../styles/main.css" />
 
   <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -122,7 +122,7 @@
     .review-hero__bg {
       position: absolute;
       inset: -16px;
-      background-image: url('images/Freed_background.png');
+      background-image: url('../images/Freed_background.png');
       background-size: cover;
       background-position: center;
       filter: blur(6px);
@@ -860,6 +860,45 @@
       line-height: var(--leading-loose);
     }
 
+
+    /* ── Feature definition tooltip ─────────────────────────────── */
+    .feat-info {
+      display: inline-flex;
+      align-items: center;
+      color: #5b8db8;
+      font-size: 11px;
+      cursor: default;
+      position: relative;
+      margin-left: 5px;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+    .tip-bubble {
+      display: none;
+      position: fixed;
+      background: #1a2b3c;
+      color: #fff;
+      padding: 9px 13px;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.55;
+      width: 300px;
+      white-space: normal;
+      text-align: left;
+      pointer-events: none;
+      z-index: 9999;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.28);
+    }
+    .tip-bubble::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: #1a2b3c;
+    }
   </style>
 </head>
 
@@ -1157,7 +1196,7 @@
           </div>
           <div class="legend-item">
             <span class="feature-icon icon--not-listed"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
-            Not Listed
+            Not Supported
           </div>
         </div>
 
@@ -1167,23 +1206,23 @@
           <div class="feature-grid">
             <div class="feature-item">
               <span class="feature-icon icon--supported"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
-              <span class="feature-name">ICD-10 Codes</span>
+              <span class="feature-name">ICD-10 Codes<span class="feat-info info-tip" role="tooltip" aria-label="Automatic suggestion or generation of ICD-10 diagnostic codes from the encounter."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Automatic suggestion or generation of ICD-10 diagnostic codes from the encounter.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--unknown"><i class="fa-solid fa-question" aria-hidden="true"></i></span>
-              <span class="feature-name">HCC Coding</span>
+              <span class="feature-name">HCC Coding<span class="feat-info info-tip" role="tooltip" aria-label="Generation of Hierarchical Condition Category (HCC) codes for risk-adjustment and chronic condition documentation."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Generation of Hierarchical Condition Category (HCC) codes for risk-adjustment and chronic condition documentation.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--unknown"><i class="fa-solid fa-question" aria-hidden="true"></i></span>
-              <span class="feature-name">SNOMED</span>
+              <span class="feature-name">SNOMED<span class="feat-info info-tip" role="tooltip" aria-label="Support for SNOMED CT clinical terminology codes in documentation."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Support for SNOMED CT clinical terminology codes in documentation.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--unknown"><i class="fa-solid fa-question" aria-hidden="true"></i></span>
-              <span class="feature-name">E/M Coding</span>
+              <span class="feature-name">E/M Coding<span class="feat-info info-tip" role="tooltip" aria-label="Generation of Evaluation and Management (E/M) billing codes based on encounter complexity."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Generation of Evaluation and Management (E/M) billing codes based on encounter complexity.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--unknown"><i class="fa-solid fa-question" aria-hidden="true"></i></span>
-              <span class="feature-name">CPT Codes</span>
+              <span class="feature-name">CPT Codes<span class="feat-info info-tip" role="tooltip" aria-label="Generation of Current Procedural Terminology (CPT) codes for billable clinical services."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Generation of Current Procedural Terminology (CPT) codes for billable clinical services.</span></span></span>
             </div>
           </div>
         </div>
@@ -1194,31 +1233,31 @@
           <div class="feature-grid">
             <div class="feature-item">
               <span class="feature-icon icon--supported"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
-              <span class="feature-name">Generated Note</span>
+              <span class="feature-name">Generated Note<span class="feat-info info-tip" role="tooltip" aria-label="Automatic creation of a structured clinical note from the patient encounter."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Automatic creation of a structured clinical note from the patient encounter.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--supported"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
-              <span class="feature-name">Post-Generation Editing</span>
+              <span class="feature-name">Post-Generation Editing<span class="feat-info info-tip" role="tooltip" aria-label="Tools for editing, regenerating, or refining the clinical note after it has been generated."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Tools for editing, regenerating, or refining the clinical note after it has been generated.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--supported"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
-              <span class="feature-name">SOAP as Default</span>
+              <span class="feature-name">SOAP as Default<span class="feat-info info-tip" role="tooltip" aria-label="Ability to generate notes in the standard SOAP (Subjective, Objective, Assessment, Plan) format."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Ability to generate notes in the standard SOAP (Subjective, Objective, Assessment, Plan) format.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--supported"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
-              <span class="feature-name">Templates for Docs</span>
+              <span class="feature-name">Templates for Docs<span class="feat-info info-tip" role="tooltip" aria-label="Pre-built or customizable note templates tailored to specialty or visit type."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Pre-built or customizable note templates tailored to specialty or visit type.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--supported"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
-              <span class="feature-name">Multiple Sessions</span>
+              <span class="feature-name">Multiple Sessions<span class="feat-info info-tip" role="tooltip" aria-label="Support for capturing multiple recordings or sessions tied to a single patient visit."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Support for capturing multiple recordings or sessions tied to a single patient visit.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--not-listed"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
-              <span class="feature-name">Orders</span>
+              <span class="feature-name">Orders<span class="feat-info info-tip" role="tooltip" aria-label="Generation or staging of clinical orders based on the encounter."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Generation or staging of clinical orders based on the encounter.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--not-listed"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
-              <span class="feature-name">Speaker Attribution</span>
+              <span class="feature-name">Speaker Attribution<span class="feat-info info-tip" role="tooltip" aria-label="Identification and labeling of different speakers in the transcript."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Identification and labeling of different speakers in the transcript.</span></span></span>
             </div>
           </div>
         </div>
@@ -1229,23 +1268,23 @@
           <div class="feature-grid">
             <div class="feature-item">
               <span class="feature-icon icon--not-listed"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
-              <span class="feature-name">Transcript Component</span>
+              <span class="feature-name">Transcript Component<span class="feat-info info-tip" role="tooltip" aria-label="Display of a written transcript of the patient encounter during or after the visit."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Display of a written transcript of the patient encounter during or after the visit.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--not-listed"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
-              <span class="feature-name">Transcript Explainability</span>
+              <span class="feature-name">Transcript Explainability<span class="feat-info info-tip" role="tooltip" aria-label="Ability to trace specific note content back to its supporting transcript reference."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Ability to trace specific note content back to its supporting transcript reference.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--not-listed"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
-              <span class="feature-name">Safeguards / Clinical Review</span>
+              <span class="feature-name">Safeguards / Clinical Review<span class="feat-info info-tip" role="tooltip" aria-label="Workflows that prompt or require clinician review before the note is finalized."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Workflows that prompt or require clinician review before the note is finalized.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--partial"><i class="fa-solid fa-minus" aria-hidden="true"></i></span>
-              <span class="feature-name">Chart Summarization</span>
+              <span class="feature-name">Chart Summarization<span class="feat-info info-tip" role="tooltip" aria-label="Summaries of prior visits, charts, or discharge content to support encounter prep and handoff."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Summaries of prior visits, charts, or discharge content to support encounter prep and handoff.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--partial"><i class="fa-solid fa-minus" aria-hidden="true"></i></span>
-              <span class="feature-name">Suggestions</span>
+              <span class="feature-name">Suggestions<span class="feat-info info-tip" role="tooltip" aria-label="AI-generated recommendations such as differentials, clinical decision support, or draft letters."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">AI-generated recommendations such as differentials, clinical decision support, or draft letters.</span></span></span>
             </div>
           </div>
         </div>
@@ -1256,35 +1295,35 @@
           <div class="feature-grid">
             <div class="feature-item">
               <span class="feature-icon icon--supported"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
-              <span class="feature-name">EHR Integration</span>
+              <span class="feature-name">EHR Integration<span class="feat-info info-tip" role="tooltip" aria-label="General ability to connect the scribe with electronic health record systems."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">General ability to connect the scribe with electronic health record systems.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--partial"><i class="fa-solid fa-minus" aria-hidden="true"></i></span>
-              <span class="feature-name">Additional EHR Features</span>
+              <span class="feature-name">Additional EHR Features<span class="feat-info info-tip" role="tooltip" aria-label="Additional productivity capabilities beyond core documentation (e.g., agents, macros, ROI tools)."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Additional productivity capabilities beyond core documentation (e.g., agents, macros, ROI tools).</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--not-listed"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
-              <span class="feature-name">EHR Widget (Light)</span>
+              <span class="feature-name">EHR Widget (Light)<span class="feat-info info-tip" role="tooltip" aria-label="Lightweight embedded widget or browser extension that overlays on the EHR."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Lightweight embedded widget or browser extension that overlays on the EHR.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--not-listed"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
-              <span class="feature-name">Deep EHR Integration</span>
+              <span class="feature-name">Deep EHR Integration<span class="feat-info info-tip" role="tooltip" aria-label="Native, bidirectional, API-level integration with EHR systems."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Native, bidirectional, API-level integration with EHR systems.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--not-listed"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
-              <span class="feature-name">Epic</span>
+              <span class="feature-name">Epic<span class="feat-info info-tip" role="tooltip" aria-label="Integration with the Epic EHR platform."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Integration with the Epic EHR platform.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--not-listed"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
-              <span class="feature-name">Oracle Health</span>
+              <span class="feature-name">Oracle Health<span class="feat-info info-tip" role="tooltip" aria-label="Integration with Oracle Health (formerly Cerner)."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Integration with Oracle Health (formerly Cerner).</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--not-listed"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
-              <span class="feature-name">athenahealth</span>
+              <span class="feature-name">athenahealth<span class="feat-info info-tip" role="tooltip" aria-label="Integration with the athenahealth EHR platform."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Integration with the athenahealth EHR platform.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--not-listed"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
-              <span class="feature-name">MEDITECH</span>
+              <span class="feature-name">MEDITECH<span class="feat-info info-tip" role="tooltip" aria-label="Integration with the MEDITECH EHR platform."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Integration with the MEDITECH EHR platform.</span></span></span>
             </div>
           </div>
         </div>
@@ -1295,19 +1334,19 @@
           <div class="feature-grid">
             <div class="feature-item">
               <span class="feature-icon icon--supported"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
-              <span class="feature-name">SOC 2 Type 2</span>
+              <span class="feature-name">SOC 2 Type 2<span class="feat-info info-tip" role="tooltip" aria-label="SOC 2 Type II security certification."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">SOC 2 Type II security certification.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--supported"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
-              <span class="feature-name">HIPAA Compliant</span>
+              <span class="feature-name">HIPAA Compliant<span class="feat-info info-tip" role="tooltip" aria-label="Compliance with HIPAA standards for handling protected health information."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Compliance with HIPAA standards for handling protected health information.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--not-listed"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
-              <span class="feature-name">Authentication &amp; Authorization</span>
+              <span class="feature-name">Authentication &amp; Authorization<span class="feat-info info-tip" role="tooltip" aria-label="User authentication practices such as multi-factor authentication and role-based access."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">User authentication practices such as multi-factor authentication and role-based access.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--not-listed"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
-              <span class="feature-name">Data Retention Policy</span>
+              <span class="feature-name">Data Retention Policy<span class="feat-info info-tip" role="tooltip" aria-label="Documented policy for storage, retention, and deletion of patient data."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Documented policy for storage, retention, and deletion of patient data.</span></span></span>
             </div>
           </div>
         </div>
@@ -1318,19 +1357,19 @@
           <div class="feature-grid">
             <div class="feature-item">
               <span class="feature-icon icon--supported"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
-              <span class="feature-name">Pricing Listed</span>
+              <span class="feature-name">Pricing Listed<span class="feat-info info-tip" role="tooltip" aria-label="Publicly available pricing information."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Publicly available pricing information.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--supported"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
-              <span class="feature-name">Demos Available</span>
+              <span class="feature-name">Demos Available<span class="feat-info info-tip" role="tooltip" aria-label="Availability of product demonstrations or demo bookings."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Availability of product demonstrations or demo bookings.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--not-listed"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
-              <span class="feature-name">Trial Period</span>
+              <span class="feature-name">Trial Period<span class="feat-info info-tip" role="tooltip" aria-label="Free trial access for evaluating the product."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Free trial access for evaluating the product.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--supported"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
-              <span class="feature-name">Usage Rate Info</span>
+              <span class="feature-name">Usage Rate Info<span class="feat-info info-tip" role="tooltip" aria-label="Transparency of usage-based pricing or usage limits."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Transparency of usage-based pricing or usage limits.</span></span></span>
             </div>
           </div>
         </div>
@@ -1341,35 +1380,35 @@
           <div class="feature-grid">
             <div class="feature-item">
               <span class="feature-icon icon--supported"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
-              <span class="feature-name">Laptop</span>
+              <span class="feature-name">Laptop<span class="feat-info info-tip" role="tooltip" aria-label="Availability on laptop computers."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Availability on laptop computers.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--supported"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
-              <span class="feature-name">Desktop</span>
+              <span class="feature-name">Desktop<span class="feat-info info-tip" role="tooltip" aria-label="Availability on desktop computers."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Availability on desktop computers.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--supported"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
-              <span class="feature-name">Phone</span>
+              <span class="feature-name">Phone<span class="feat-info info-tip" role="tooltip" aria-label="Availability on smartphones."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Availability on smartphones.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--supported"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
-              <span class="feature-name">Tablet</span>
+              <span class="feature-name">Tablet<span class="feat-info info-tip" role="tooltip" aria-label="Availability on tablet devices."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Availability on tablet devices.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--supported"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
-              <span class="feature-name">Web App</span>
+              <span class="feature-name">Web App<span class="feat-info info-tip" role="tooltip" aria-label="Availability via a web-based application."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Availability via a web-based application.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--not-listed"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
-              <span class="feature-name">Telehealth</span>
+              <span class="feature-name">Telehealth<span class="feat-info info-tip" role="tooltip" aria-label="Support for telehealth platforms such as Zoom, Teams, or Doxy."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Support for telehealth platforms such as Zoom, Teams, or Doxy.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--not-listed"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
-              <span class="feature-name">Ambulatory / Urgent Care</span>
+              <span class="feature-name">Ambulatory / Urgent Care<span class="feat-info info-tip" role="tooltip" aria-label="Support for outpatient, urgent care, and in-home visit settings."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Support for outpatient, urgent care, and in-home visit settings.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--not-listed"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
-              <span class="feature-name">Emergency Department</span>
+              <span class="feature-name">Emergency Department<span class="feat-info info-tip" role="tooltip" aria-label="Support for emergency department workflows."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Support for emergency department workflows.</span></span></span>
             </div>
           </div>
         </div>
@@ -1380,23 +1419,23 @@
           <div class="feature-grid">
             <div class="feature-item">
               <span class="feature-icon icon--unknown"><i class="fa-solid fa-question" aria-hidden="true"></i></span>
-              <span class="feature-name">Specialty Support</span>
+              <span class="feature-name">Specialty Support<span class="feat-info info-tip" role="tooltip" aria-label="Coverage across multiple clinical specialties."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Coverage across multiple clinical specialties.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--unknown"><i class="fa-solid fa-question" aria-hidden="true"></i></span>
-              <span class="feature-name">Nurse Support</span>
+              <span class="feature-name">Nurse Support<span class="feat-info info-tip" role="tooltip" aria-label="Specific support or workflows tailored to nursing professionals."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Specific support or workflows tailored to nursing professionals.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--unknown"><i class="fa-solid fa-question" aria-hidden="true"></i></span>
-              <span class="feature-name">Language Support</span>
+              <span class="feature-name">Language Support<span class="feat-info info-tip" role="tooltip" aria-label="Ability to transcribe or document across multiple languages."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Ability to transcribe or document across multiple languages.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--unknown"><i class="fa-solid fa-question" aria-hidden="true"></i></span>
-              <span class="feature-name">Language Options</span>
+              <span class="feature-name">Language Options<span class="feat-info info-tip" role="tooltip" aria-label="Support for multilingual encounters or real-time translation features."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Support for multilingual encounters or real-time translation features.</span></span></span>
             </div>
             <div class="feature-item">
               <span class="feature-icon icon--supported"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
-              <span class="feature-name">Language Count Listed</span>
+              <span class="feature-name">Language Count Listed<span class="feat-info info-tip" role="tooltip" aria-label="Total number of languages supported by the platform."><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span class="tip-bubble">Total number of languages supported by the platform.</span></span></span>
             </div>
           </div>
         </div>
@@ -1576,7 +1615,7 @@
     <div class="footer__inner">
 
       <div class="footer__brand">
-        <a href="index.html" class="footer__logo">Clinician Reports</a>
+        <a href="../index.html" class="footer__logo">Clinician Reports</a>
         <p class="footer__tagline">
           Independent human factors evaluations of AI scribe tools —
           helping you choose the right solution based on safety and efficiency.
@@ -1586,7 +1625,7 @@
       <div style="margin-left: auto;">
         <p class="footer__col-title">Pages</p>
         <ul class="footer__links" role="list">
-          <li><a href="index.html"              class="footer__link">Home</a></li>
+          <li><a href="../index.html"              class="footer__link">Home</a></li>
           <li><a href="aiScribeReviews_v1.html"    class="footer__link">AI Scribe Reviews</a></li>
           <li><a href="methodology_v1.html"        class="footer__link">Methodology</a></li>
           <li><a href="aboutUs_v1.html"            class="footer__link">About Us</a></li>
@@ -1989,6 +2028,55 @@
         }
       }
     });
+  </script>
+
+
+  <!-- ── Feature tooltip engine ─────────────────────────────────── -->
+  <script>
+    (function () {
+      var active = null;
+
+      function show(icon) {
+        var bubble = icon.querySelector('.tip-bubble');
+        if (!bubble) return;
+        bubble.style.display = 'block';
+        var rect = icon.getBoundingClientRect();
+        var bh   = bubble.offsetHeight;
+        var bw   = bubble.offsetWidth;
+        var top  = rect.top - bh - 8;
+        var left = rect.left + rect.width / 2 - bw / 2;
+        if (left < 8) left = 8;
+        if (left + bw > window.innerWidth - 8) left = window.innerWidth - bw - 8;
+        if (top < 8) top = rect.bottom + 8; // flip below if no room above
+        bubble.style.top  = Math.round(top)  + 'px';
+        bubble.style.left = Math.round(left) + 'px';
+        active = icon;
+      }
+
+      function hide(icon) {
+        var bubble = icon.querySelector('.tip-bubble');
+        if (bubble) bubble.style.display = '';
+        active = null;
+      }
+
+      document.addEventListener('mouseover', function (e) {
+        var icon = e.target.closest('.feat-info');
+        if (!icon) return;
+        if (active && active !== icon) hide(active);
+        show(icon);
+      });
+
+      document.addEventListener('mouseout', function (e) {
+        var icon = e.target.closest('.feat-info');
+        if (!icon) return;
+        if (e.relatedTarget && icon.contains(e.relatedTarget)) return;
+        hide(icon);
+      });
+
+      window.addEventListener('scroll', function () {
+        if (active) hide(active);
+      }, { passive: true });
+    })();
   </script>
 
 </body>

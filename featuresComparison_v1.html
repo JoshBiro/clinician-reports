@@ -25,18 +25,20 @@
 
     /* ── Page Header ─────────────────────────────────────────── */
     .fc-header {
-      padding: var(--space-12) 0 var(--space-6);
+      padding: var(--space-16) 0 var(--space-10);
+      text-align: center;
     }
     .fc-header h1 {
-      font-size: var(--text-3xl);
-      margin-bottom: var(--space-2);
+      font-size: var(--text-4xl);
+      margin-top: var(--space-3);
+      margin-bottom: var(--space-4);
     }
     .fc-header .lead {
-      font-size: var(--text-base);
+      font-size: var(--text-md);
       color: var(--color-text-muted);
-      max-width: 660px;
+      max-width: 580px;
       line-height: var(--leading-loose);
-      margin: 0;
+      margin: 0 auto;
     }
 
     /* ── Controls Bar ────────────────────────────────────────── */
@@ -376,6 +378,70 @@
       .fc-header h1 { font-size: var(--text-2xl); }
       .fc-controls  { flex-direction: column; }
     }
+    .info-tip {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      color: #0f4c75;
+      font-size: 11px;
+      cursor: default;
+      flex-shrink: 0;
+    }
+    .tip-bubble {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a2b3c;
+      color: #fff;
+      padding: 9px 13px;
+      border-radius: 7px;
+      font-size: 12px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      line-height: 1.55;
+      width: 280px;
+      white-space: normal;
+      text-align: left;
+      pointer-events: none;
+      z-index: 999;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.28);
+    }
+    .tip-bubble::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: #1a2b3c;
+    }
+
+    /* ── Feature-label info icon ─────────────────────────────── */
+    /* Note: flex lives on .feat-name-inner (a div), NOT on the td,
+       so table border rendering is never disrupted.              */
+    .feat-name-inner {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .feat-label {
+      flex: 1;
+    }
+    .feat-info {
+      flex-shrink: 0;
+      color: #5b8db8;
+      font-size: 12px;
+      cursor: default;
+    }
+    .feat-info .tip-bubble {
+      width: 300px;
+      left: 0;
+      transform: none;
+    }
+
+    /* JS controls display — see tooltip script below */
 
   </style>
 
@@ -485,7 +551,7 @@
           <div class="fc-legend">
             <div class="legend-item"><div class="legend-dot legend-dot--supported"></div>Supported</div>
             <div class="legend-item"><div class="legend-dot legend-dot--partial"></div>Partial</div>
-            <div class="legend-item"><div class="legend-dot legend-dot--unlisted"></div>Not Listed</div>
+            <div class="legend-item"><div class="legend-dot legend-dot--unlisted"></div>Not Supported</div>
             <div class="legend-item"><div class="legend-dot legend-dot--unknown"></div>Unknown</div>
           </div>
         </div>
@@ -544,7 +610,7 @@
 
             <template x-for="f in fDefs.coding" :key="f.key">
               <tr class="data-row" x-show="!collapsed.coding">
-                <td class="feat-name" x-text="f.label"></td>
+                <td class="feat-name" x-html="featCell(f)"></td>
                 <template x-for="s in scribes" :key="s.id">
                   <td class="val-cell" :class="{ 'col-dimmed': isDimmed(s.id) }" x-html="badge(s.coding[f.key])"></td>
                 </template>
@@ -571,7 +637,7 @@
 
             <template x-for="f in fDefs.notes" :key="f.key">
               <tr class="data-row" x-show="!collapsed.notes">
-                <td class="feat-name" x-text="f.label"></td>
+                <td class="feat-name" x-html="featCell(f)"></td>
                 <template x-for="s in scribes" :key="s.id">
                   <td class="val-cell" :class="{ 'col-dimmed': isDimmed(s.id) }" x-html="badge(s.notes[f.key])"></td>
                 </template>
@@ -598,7 +664,7 @@
 
             <template x-for="f in fDefs.ehr" :key="f.key">
               <tr class="data-row" x-show="!collapsed.ehr">
-                <td class="feat-name" x-text="f.label"></td>
+                <td class="feat-name" x-html="featCell(f)"></td>
                 <template x-for="s in scribes" :key="s.id">
                   <td class="val-cell" :class="{ 'col-dimmed': isDimmed(s.id) }" x-html="badge(s.ehr[f.key])"></td>
                 </template>
@@ -625,7 +691,7 @@
 
             <template x-for="f in fDefs.security" :key="f.key">
               <tr class="data-row" x-show="!collapsed.security">
-                <td class="feat-name" x-text="f.label"></td>
+                <td class="feat-name" x-html="featCell(f)"></td>
                 <template x-for="s in scribes" :key="s.id">
                   <td class="val-cell" :class="{ 'col-dimmed': isDimmed(s.id) }" x-html="badge(s.security[f.key])"></td>
                 </template>
@@ -652,7 +718,7 @@
 
             <template x-for="f in fDefs.pricing" :key="f.key">
               <tr class="data-row" x-show="!collapsed.pricing">
-                <td class="feat-name" x-text="f.label"></td>
+                <td class="feat-name" x-html="featCell(f)"></td>
                 <template x-for="s in scribes" :key="s.id">
                   <td class="val-cell" :class="{ 'col-dimmed': isDimmed(s.id) }" x-html="badge(s.pricing[f.key])"></td>
                 </template>
@@ -679,7 +745,7 @@
 
             <template x-for="f in fDefs.specialty" :key="f.key">
               <tr class="data-row" x-show="!collapsed.specialty">
-                <td class="feat-name" x-text="f.label"></td>
+                <td class="feat-name" x-html="featCell(f)"></td>
                 <template x-for="s in scribes" :key="s.id">
                   <td class="val-cell" :class="{ 'col-dimmed': isDimmed(s.id) }" x-html="badge(s.specialty[f.key])"></td>
                 </template>
@@ -706,7 +772,7 @@
 
             <template x-for="f in fDefs.devices" :key="f.key">
               <tr class="data-row" x-show="!collapsed.devices">
-                <td class="feat-name" x-text="f.label"></td>
+                <td class="feat-name" x-html="featCell(f)"></td>
                 <template x-for="s in scribes" :key="s.id">
                   <td class="val-cell" :class="{ 'col-dimmed': isDimmed(s.id) }" x-html="badge(s.devices[f.key])"></td>
                 </template>
@@ -722,7 +788,7 @@
         <i class="fa-solid fa-circle-info fa-sm"></i>
         <p>
           <strong>About this table:</strong> Feature data is sourced from each scribe's public documentation as part of our human factors review process.
-          <em>Not Listed</em> means the feature was not publicly documented at time of review — it may still exist.
+          <em>Not Supported</em> means the feature was not publicly documented at time of review — it may still exist.
           <em>Unknown</em> means we could not confirm either way.
           Data last reviewed <strong>April 2026</strong>.
           <a href="methodology_v1.html" style="margin-left:4px;">Read our full methodology &rarr;</a>
@@ -797,117 +863,336 @@
         scribes: [
           {
             id: 'freed', name: 'Freed',
-            grade: 'B−', gradeClass: 'grade-b',
+            grade: 'B-', gradeClass: 'grade-b',
             link: 'review-Freed_v1.html',
-            coding:   { icd10:'Supported',          hcc:'Unknown',           snomed:'Unknown',           em:'Unknown',             cpt:'Unknown'           },
-            notes:    { note:'Supported',            transcript:'Not listed', explainability:'Not listed', safeguards:'Not listed',  chartSum:'Partially Supported', suggestions:'Partially Supported', speaker:'Not listed', postEdit:'Supported', additional:'Partially Supported', templates:'Supported', soap:'Supported', orders:'Not listed', multiSession:'Supported' },
-            ehr:      { general:'Supported',         light:'Not listed',      deep:'Not listed',          epic:'Not listed',        oracle:'Not listed',    athena:'Not listed',  meditech:'Not listed'  },
-            security: { soc2:'Supported',            hipaa:'Supported',       trust:'Not listed',         auth:'Not listed',        retention:'Not listed'  },
-            pricing:  { contact:'Supported',         demos:'Not listed',      trial:'Supported',          usage:'Not listed'        },
-            specialty:{ specialty:'Supported',       nurse:'Unknown',         language:'Unknown',         langOptions:'Unknown',    langCount:'Unknown'     },
-            devices:  { laptop:'Supported',          desktop:'Supported',     phone:'Supported',          tablet:'Supported',       webApp:'Supported',     virtual:'Supported',  ambulatory:'Not listed', ed:'Not listed', telehealth:'Not listed' }
+            coding: {
+              icd10:'Supported',
+              hcc:'Unknown',
+              snomed:'Unknown',
+              em:'Supported',
+              cpt:'Supported'
+            },
+            notes: {
+              note:'Supported',
+              transcript:'Supported',
+              explainability:'Unknown',
+              safeguards:'Partially Supported',
+              chartSum:'Partially Supported',
+              suggestions:'Partially Supported',
+              speaker:'Unknown',
+              postEdit:'Supported',
+              additional:'Partially Supported',
+              templates:'Supported',
+              soap:'Supported',
+              orders:'Unknown',
+              multiSession:'Supported'
+            },
+            ehr: {
+              general:'Supported',
+              light:'Supported',
+              deep:'Not Supported',
+              epic:'Unknown',
+              oracle:'Not Supported',
+              athena:'Supported',
+              meditech:'Not Supported'
+            },
+            security: {
+              soc2:'Supported',
+              hipaa:'Supported',
+              trust:'Supported',
+              auth:'Unknown',
+              retention:'Supported'
+            },
+            pricing: {
+              contact:'Supported',
+              demos:'Supported',
+              trial:'Supported',
+              usage:'Supported'
+            },
+            specialty: {
+              specialty:'Supported',
+              nurse:'Unknown',
+              language:'Unknown',
+              langOptions:'Unknown',
+              langCount:'Unknown'
+            },
+            devices: {
+              laptop:'Supported',
+              desktop:'Supported',
+              phone:'Supported',
+              tablet:'Supported',
+              webApp:'Supported',
+              virtual:'Supported',
+              ambulatory:'Supported',
+              ed:'Unknown',
+              telehealth:'Supported'
+            }
           },
           {
             id: 'suki', name: 'Suki',
             grade: 'C+', gradeClass: 'grade-c',
             link: 'review-Suki_v1.html',
-            coding:   { icd10:'Supported',          hcc:'Supported',         snomed:'Unknown',           em:'Supported',           cpt:'Supported'         },
-            notes:    { note:'Supported',            transcript:'Unknown',    explainability:'Unknown',   safeguards:'Unknown',     chartSum:'Supported',   suggestions:'Not listed', speaker:'Partially Supported', postEdit:'Supported', additional:'Partially Supported', templates:'Not listed', soap:'Not listed', orders:'Supported', multiSession:'Supported' },
-            ehr:      { general:'Partially Supported', light:'Not listed',   deep:'Supported',           epic:'Supported',         oracle:'Not listed',    athena:'Not listed',  meditech:'Not listed'  },
-            security: { soc2:'Supported',            hipaa:'Supported',       trust:'Supported',          auth:'Supported',         retention:'Supported'   },
-            pricing:  { contact:'Supported',         demos:'Not listed',      trial:'Unknown',            usage:'Not listed'        },
-            specialty:{ specialty:'Not listed',      nurse:'Not listed',      language:'Not listed',      langOptions:'Not listed', langCount:'Not listed'  },
-            devices:  { laptop:'Supported',          desktop:'Supported',     phone:'Supported',          tablet:'Supported',       webApp:'Supported',     virtual:'Supported',  ambulatory:'Unknown',   ed:'Supported', telehealth:'Supported' }
+            coding: {
+              icd10:'Supported',
+              hcc:'Supported',
+              snomed:'Unknown',
+              em:'Supported',
+              cpt:'Supported'
+            },
+            notes: {
+              note:'Supported',
+              transcript:'Not Supported',
+              explainability:'Unknown',
+              safeguards:'Unknown',
+              chartSum:'Supported',
+              suggestions:'Supported',
+              speaker:'Partially Supported',
+              postEdit:'Supported',
+              additional:'Partially Supported',
+              templates:'Supported',
+              soap:'Supported',
+              orders:'Supported',
+              multiSession:'Supported'
+            },
+            ehr: {
+              general:'Partially Supported',
+              light:'Supported',
+              deep:'Supported',
+              epic:'Supported',
+              oracle:'Supported',
+              athena:'Supported',
+              meditech:'Supported'
+            },
+            security: {
+              soc2:'Supported',
+              hipaa:'Supported',
+              trust:'Supported',
+              auth:'Supported',
+              retention:'Unknown'
+            },
+            pricing: {
+              contact:'Unknown',
+              demos:'Supported',
+              trial:'Unknown',
+              usage:'Unknown'
+            },
+            specialty: {
+              specialty:'Supported',
+              nurse:'Partially Supported',
+              language:'Supported',
+              langOptions:'Supported',
+              langCount:'Supported'
+            },
+            devices: {
+              laptop:'Supported',
+              desktop:'Supported',
+              phone:'Supported',
+              tablet:'Supported',
+              webApp:'Supported',
+              virtual:'Supported',
+              ambulatory:'Supported',
+              ed:'Supported',
+              telehealth:'Supported'
+            }
           },
           {
             id: 'heidi', name: 'Heidi',
             grade: 'C', gradeClass: 'grade-c',
             link: 'review-Heidi_v1.html',
-            coding:   { icd10:'Supported',          hcc:'Supported',         snomed:'Supported',         em:'Partially Supported', cpt:'Supported'         },
-            notes:    { note:'Supported',            transcript:'Supported',  explainability:'Supported', safeguards:'Supported',   chartSum:'Supported',   suggestions:'Supported', speaker:'Partially Supported', postEdit:'Supported', additional:'Partially Supported', templates:'Supported', soap:'Supported', orders:'Unknown', multiSession:'Supported' },
-            ehr:      { general:'Partially Supported', light:'Supported',    deep:'Partially Supported', epic:'Supported',         oracle:'Partially Supported', athena:'Supported', meditech:'Unknown' },
-            security: { soc2:'Supported',            hipaa:'Supported',       trust:'Supported',          auth:'Supported',         retention:'Supported'   },
-            pricing:  { contact:'Supported',         demos:'Supported',       trial:'Supported',          usage:'Supported'         },
-            specialty:{ specialty:'Supported',       nurse:'Supported',       language:'Supported',       langOptions:'Supported',  langCount:'Supported'   },
-            devices:  { laptop:'Supported',          desktop:'Supported',     phone:'Supported',          tablet:'Supported',       webApp:'Supported',     virtual:'Supported',  ambulatory:'Supported',  ed:'Supported', telehealth:'Supported' }
+            coding: {
+              icd10:'Supported',
+              hcc:'Supported',
+              snomed:'Supported',
+              em:'Partially Supported',
+              cpt:'Supported'
+            },
+            notes: {
+              note:'Supported',
+              transcript:'Supported',
+              explainability:'Supported',
+              safeguards:'Supported',
+              chartSum:'Supported',
+              suggestions:'Supported',
+              speaker:'Partially Supported',
+              postEdit:'Supported',
+              additional:'Partially Supported',
+              templates:'Supported',
+              soap:'Supported',
+              orders:'Unknown',
+              multiSession:'Supported'
+            },
+            ehr: {
+              general:'Partially Supported',
+              light:'Supported',
+              deep:'Partially Supported',
+              epic:'Supported',
+              oracle:'Unknown',
+              athena:'Supported',
+              meditech:'Partially Supported'
+            },
+            security: {
+              soc2:'Supported',
+              hipaa:'Supported',
+              trust:'Supported',
+              auth:'Supported',
+              retention:'Supported'
+            },
+            pricing: {
+              contact:'Supported',
+              demos:'Supported',
+              trial:'Supported',
+              usage:'Supported'
+            },
+            specialty: {
+              specialty:'Supported',
+              nurse:'Supported',
+              language:'Supported',
+              langOptions:'Supported',
+              langCount:'Supported'
+            },
+            devices: {
+              laptop:'Supported',
+              desktop:'Supported',
+              phone:'Supported',
+              tablet:'Supported',
+              webApp:'Supported',
+              virtual:'Supported',
+              ambulatory:'Supported',
+              ed:'Supported',
+              telehealth:'Supported'
+            }
           },
           {
             id: 'scribeberry', name: 'Scribeberry',
             grade: 'C', gradeClass: 'grade-c',
             link: 'review-Scribeberry_v1.html',
-            coding:   { icd10:'Partially Supported', hcc:'Supported',        snomed:'Unknown',           em:'Unknown',             cpt:'Partially Supported' },
-            notes:    { note:'Supported',             transcript:'Supported', explainability:'Unknown',   safeguards:'Unknown',     chartSum:'Partially Supported', suggestions:'Partially Supported', speaker:'Supported', postEdit:'Supported', additional:'Supported', templates:'Supported', soap:'Supported', orders:'Unknown', multiSession:'Unknown' },
-            ehr:      { general:'Supported',          light:'Supported',      deep:'Unknown',             epic:'Unknown',           oracle:'Unknown',         athena:'Unknown',     meditech:'Unknown'     },
-            security: { soc2:'Supported',             hipaa:'Supported',      trust:'Supported',          auth:'Supported',         retention:'Unknown'       },
-            pricing:  { contact:'Unknown',            demos:'Supported',      trial:'Supported',          usage:'Supported'         },
-            specialty:{ specialty:'Unknown',          nurse:'Partially Supported', language:'Unknown',    langOptions:'Supported',  langCount:'Supported'    },
-            devices:  { laptop:'Supported',           desktop:'Partially Supported', phone:'Partially Supported', tablet:'Supported', webApp:'Supported',   virtual:'Partially Supported', ambulatory:'Supported', ed:'Supported', telehealth:'Partially Supported' }
+            coding: {
+              icd10:'Partially Supported',
+              hcc:'Supported',
+              snomed:'Unknown',
+              em:'Unknown',
+              cpt:'Partially Supported'
+            },
+            notes: {
+              note:'Supported',
+              transcript:'Supported',
+              explainability:'Unknown',
+              safeguards:'Unknown',
+              chartSum:'Partially Supported',
+              suggestions:'Partially Supported',
+              speaker:'Supported',
+              postEdit:'Supported',
+              additional:'Supported',
+              templates:'Supported',
+              soap:'Supported',
+              orders:'Unknown',
+              multiSession:'Unknown'
+            },
+            ehr: {
+              general:'Supported',
+              light:'Supported',
+              deep:'Unknown',
+              epic:'Supported',
+              oracle:'Unknown',
+              athena:'Unknown',
+              meditech:'Unknown'
+            },
+            security: {
+              soc2:'Supported',
+              hipaa:'Supported',
+              trust:'Supported',
+              auth:'Unknown',
+              retention:'Unknown'
+            },
+            pricing: {
+              contact:'Supported',
+              demos:'Supported',
+              trial:'Supported',
+              usage:'Unknown'
+            },
+            specialty: {
+              specialty:'Partially Supported',
+              nurse:'Unknown',
+              language:'Supported',
+              langOptions:'Supported',
+              langCount:'Partially Supported'
+            },
+            devices: {
+              laptop:'Supported',
+              desktop:'Supported',
+              phone:'Partially Supported',
+              tablet:'Supported',
+              webApp:'Supported',
+              virtual:'Supported',
+              ambulatory:'Partially Supported',
+              ed:'Unknown',
+              telehealth:'Supported'
+            }
           }
         ],
 
-        /* ── Feature row definitions ─────────────────────────── */
-        fDefs: {
+                        fDefs: {
           coding: [
-            { key:'icd10',  label:'ICD-10 Codes'      },
-            { key:'hcc',    label:'HCC Coding'         },
-            { key:'snomed', label:'SNOMED CT'          },
-            { key:'em',     label:'E/M Coding'         },
-            { key:'cpt',    label:'CPT Codes'          }
+            { key:'icd10', label:'ICD-10 Codes', def:`Automatic suggestion or generation of ICD-10 diagnostic codes from the encounter.` },
+            { key:'hcc', label:'HCC Coding', def:`Generation of Hierarchical Condition Category (HCC) codes for risk-adjustment and chronic condition documentation.` },
+            { key:'snomed', label:'SNOMED CT', def:`Support for SNOMED CT clinical terminology codes in documentation.` },
+            { key:'em', label:'E/M Coding', def:`Generation of Evaluation and Management (E/M) billing codes based on encounter complexity.` },
+            { key:'cpt', label:'CPT Codes', def:`Generation of Current Procedural Terminology (CPT) codes for billable clinical services.` }
           ],
           notes: [
-            { key:'note',           label:'Generated Note'                  },
-            { key:'transcript',     label:'Transcript Component'            },
-            { key:'explainability', label:'Transcript Explainability'       },
-            { key:'safeguards',     label:'Safeguards / Clinical Review'    },
-            { key:'chartSum',       label:'Chart Summarization'             },
-            { key:'suggestions',    label:'Suggestions'                     },
-            { key:'speaker',        label:'Speaker Attribution'             },
-            { key:'postEdit',       label:'Post-Generation Note Editing'    },
-            { key:'additional',     label:'Additional Features'             },
-            { key:'templates',      label:'Templates for Docs'              },
-            { key:'soap',           label:'SOAP as Default Format'          },
-            { key:'orders',         label:'Orders'                          },
-            { key:'multiSession',   label:'Multiple Sessions'               }
+            { key:'note', label:'Generated Note', def:`Automatic creation of a structured clinical note from the patient encounter.` },
+            { key:'transcript', label:'Transcript Component', def:`Display of a written transcript of the patient encounter during or after the visit.` },
+            { key:'explainability', label:'Transcript Explainability', def:`Ability to trace specific note content back to its supporting transcript reference.` },
+            { key:'safeguards', label:'Safeguards / Clinical Review', def:`Workflows that prompt or require clinician review before the note is finalized.` },
+            { key:'chartSum', label:'Chart Summarization', def:`Summaries of prior visits, charts, or discharge content to support encounter prep and handoff.` },
+            { key:'suggestions', label:'Suggestions', def:`AI-generated recommendations such as differentials, clinical decision support, or draft letters.` },
+            { key:'speaker', label:'Speaker Attribution', def:`Identification and labeling of different speakers in the transcript.` },
+            { key:'postEdit', label:'Post-Generation Note Editing', def:`Tools for editing, regenerating, or refining the clinical note after it has been generated.` },
+            { key:'additional', label:'Additional Features', def:`Additional productivity capabilities beyond core documentation (e.g., agents, macros, ROI tools).` },
+            { key:'templates', label:'Templates for Docs', def:`Pre-built or customizable note templates tailored to specialty or visit type.` },
+            { key:'soap', label:'SOAP as Default Format', def:`Ability to generate notes in the standard SOAP (Subjective, Objective, Assessment, Plan) format.` },
+            { key:'orders', label:'Orders', def:`Generation or staging of clinical orders based on the encounter.` },
+            { key:'multiSession', label:'Multiple Sessions', def:`Support for capturing multiple recordings or sessions tied to a single patient visit.` }
           ],
           ehr: [
-            { key:'general', label:'EHR Integration (General)'       },
-            { key:'light',   label:'EHR Widget — Light Integration'  },
-            { key:'deep',    label:'EHR Integration — Deep'          },
-            { key:'epic',    label:'Epic'                            },
-            { key:'oracle',  label:'Oracle Health'                   },
-            { key:'athena',  label:'athenahealth'                    },
-            { key:'meditech',label:'MEDITECH'                        }
+            { key:'general', label:'EHR Integration (General)', def:`General ability to connect the scribe with electronic health record systems.` },
+            { key:'light', label:'EHR Widget — Light Integration', def:`Lightweight embedded widget or browser extension that overlays on the EHR.` },
+            { key:'deep', label:'EHR Integration — Deep', def:`Native, bidirectional, API-level integration with EHR systems.` },
+            { key:'epic', label:'Epic', def:`Integration with the Epic EHR platform.` },
+            { key:'oracle', label:'Oracle Health', def:`Integration with Oracle Health (formerly Cerner).` },
+            { key:'athena', label:'athenahealth', def:`Integration with the athenahealth EHR platform.` },
+            { key:'meditech', label:'MEDITECH', def:`Integration with the MEDITECH EHR platform.` }
           ],
           security: [
-            { key:'soc2',      label:'SOC 2 Type II'                    },
-            { key:'hipaa',     label:'HIPAA Compliance'                  },
-            { key:'trust',     label:'Trust Center / Security Page'      },
-            { key:'auth',      label:'Authentication &amp; Authorization' },
-            { key:'retention', label:'Data Retention Policy'             }
+            { key:'soc2', label:'SOC 2 Type II', def:`SOC 2 Type II security certification.` },
+            { key:'hipaa', label:'HIPAA Compliance', def:`Compliance with HIPAA standards for handling protected health information.` },
+            { key:'trust', label:'Trust Center / Security Page', def:`Publicly available trust center or third-party compliance documentation.` },
+            { key:'auth', label:'Authentication &amp; Authorization', def:`User authentication practices such as multi-factor authentication and role-based access.` },
+            { key:'retention', label:'Data Retention Policy', def:`Documented policy for storage, retention, and deletion of patient data.` }
           ],
           pricing: [
-            { key:'contact', label:'Contact Required for Pricing' },
-            { key:'demos',   label:'Demos Available'              },
-            { key:'trial',   label:'Trial Period Offered'         },
-            { key:'usage',   label:'Usage / Per-Note Pricing'     }
+            { key:'contact', label:'Contact Required for Pricing', def:`Publicly available pricing information.` },
+            { key:'demos', label:'Demos Available', def:`Availability of product demonstrations or demo bookings.` },
+            { key:'trial', label:'Trial Period Offered', def:`Free trial access for evaluating the product.` },
+            { key:'usage', label:'Usage / Per-Note Pricing', def:`Transparency of usage-based pricing or usage limits.` }
           ],
           specialty: [
-            { key:'specialty',   label:'Specialty Support'        },
-            { key:'nurse',       label:'Nurse / APP Support'      },
-            { key:'language',    label:'Multi-Language Support'   },
-            { key:'langOptions', label:'Language Options Listed'  },
-            { key:'langCount',   label:'Count of Languages'       }
+            { key:'specialty', label:'Specialty Support', def:`Coverage across multiple clinical specialties.` },
+            { key:'nurse', label:'Nurse / APP Support', def:`Specific support or workflows tailored to nursing professionals.` },
+            { key:'language', label:'Multi-Language Support', def:`Ability to transcribe or document across multiple languages.` },
+            { key:'langOptions', label:'Language Options Listed', def:`Support for multilingual encounters or real-time translation features.` },
+            { key:'langCount', label:'Count of Languages', def:`Total number of languages supported by the platform.` }
           ],
           devices: [
-            { key:'laptop',     label:'Laptop'                              },
-            { key:'desktop',    label:'Desktop'                             },
-            { key:'phone',      label:'Mobile / Phone'                      },
-            { key:'tablet',     label:'Tablet'                              },
-            { key:'webApp',     label:'Web App'                             },
-            { key:'virtual',    label:'Virtual Scribe / Telehealth Mode'    },
-            { key:'ambulatory', label:'Ambulatory / Urgent Care / Home Visits' },
-            { key:'ed',         label:'Emergency Department (ED)'           },
-            { key:'telehealth', label:'Telehealth Setting'                  }
+            { key:'laptop', label:'Laptop', def:`Availability on laptop computers.` },
+            { key:'desktop', label:'Desktop', def:`Availability on desktop computers.` },
+            { key:'phone', label:'Mobile / Phone', def:`Availability on smartphones.` },
+            { key:'tablet', label:'Tablet', def:`Availability on tablet devices.` },
+            { key:'webApp', label:'Web App', def:`Availability via a web-based application.` },
+            { key:'virtual', label:'Virtual Scribe / Telehealth Mode', def:`Support for virtual or telehealth scribing workflows.` },
+            { key:'ambulatory', label:'Ambulatory / Urgent Care / Home Visits', def:`Support for outpatient, urgent care, and in-home visit settings.` },
+            { key:'ed', label:'Emergency Department (ED)', def:`Support for emergency department workflows.` },
+            { key:'telehealth', label:'Telehealth Setting', def:`Support for telehealth platforms such as Zoom, Teams, or Doxy.` }
           ]
         },
 
@@ -924,19 +1209,84 @@
           return this.selectedIds.length > 0 && !this.selectedIds.includes(id);
         },
 
+        featCell(f) {
+          const label = f.label || '';
+          const def   = f.def   || '';
+          if (!def) return `<div class="feat-name-inner"><span class="feat-label">${label}</span></div>`;
+          const esc = def.replace(/"/g, '&quot;');
+          return `<div class="feat-name-inner"><span class="feat-label">${label}</span><span class="info-tip feat-info" role="tooltip"><i class="fa-solid fa-circle-info"></i><span class="tip-bubble">${esc}</span></span></div>`;
+        },
+
         badge(val) {
           const v = (val || 'Unknown').trim();
           if (v === 'Supported')
             return '<span class="badge badge-yes"><i class="fa-solid fa-check" style="font-size:9px;"></i>&nbsp;Supported</span>';
           if (v === 'Partially Supported')
             return '<span class="badge badge-partial"><i class="fa-solid fa-circle-half-stroke" style="font-size:9px;"></i>&nbsp;Partial</span>';
-          if (v === 'Not listed')
-            return '<span class="badge badge-no">— Not Listed</span>';
+          if (v === 'Not Supported' || v === 'Not listed')
+            return '<span class="badge badge-no">&#8212; Not Supported</span>';
           return '<span class="badge badge-unk">? Unknown</span>';
         }
 
       };
     }
+  </script>
+
+  <!-- ── Tooltip positioning (fixed, avoids overflow clipping) ── -->
+  <script>
+    (function () {
+      let activeEl = null;
+
+      function showTip(icon) {
+        const bubble = icon.querySelector('.tip-bubble');
+        if (!bubble) return;
+        const rect = icon.getBoundingClientRect();
+        // Position: fixed, centred above the icon
+        bubble.style.position  = 'fixed';
+        bubble.style.bottom    = 'auto';
+        bubble.style.transform = 'none';
+        bubble.style.left      = Math.round(rect.left + rect.width / 2 - 140) + 'px';
+        bubble.style.top       = Math.round(rect.top - 8) + 'px'; // will be adjusted after display
+        bubble.style.display   = 'block';
+        // After rendering, shift up by bubble height
+        const bh = bubble.offsetHeight;
+        bubble.style.top = Math.round(rect.top - bh - 8) + 'px';
+        // Keep bubble within viewport horizontally
+        const bw  = bubble.offsetWidth;
+        const vw  = window.innerWidth;
+        let left = parseFloat(bubble.style.left);
+        if (left < 8) left = 8;
+        if (left + bw > vw - 8) left = vw - bw - 8;
+        bubble.style.left = left + 'px';
+        activeEl = icon;
+      }
+
+      function hideTip(icon) {
+        const bubble = icon.querySelector('.tip-bubble');
+        if (bubble) bubble.style.display = '';
+        activeEl = null;
+      }
+
+      document.addEventListener('mouseover', function (e) {
+        const icon = e.target.closest('.info-tip');
+        if (!icon) return;
+        if (activeEl && activeEl !== icon) hideTip(activeEl);
+        showTip(icon);
+      });
+
+      document.addEventListener('mouseout', function (e) {
+        const icon = e.target.closest('.info-tip');
+        if (!icon) return;
+        const to = e.relatedTarget;
+        if (to && icon.contains(to)) return;
+        hideTip(icon);
+      });
+
+      // Hide if scrolling changes positions
+      window.addEventListener('scroll', function () {
+        if (activeEl) hideTip(activeEl);
+      }, { passive: true });
+    })();
   </script>
 
 </body>

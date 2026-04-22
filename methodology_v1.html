@@ -521,10 +521,10 @@
 
         <!-- Desktop links -->
         <ul class="nav__links" role="list">
-          <li><a href="index.html"                 class="nav__link nav__link--active">Home</a></li>
+          <li><a href="index.html"                 class="nav__link">Home</a></li>
           <li><a href="featuresComparison_v1.html" class="nav__link">AI Scribe Features</a></li>
           <li><a href="aiScribeReviews_v1.html"    class="nav__link">AI Scribe Reviews</a></li>
-          <li><a href="methodology_v1.html"        class="nav__link">Methodology</a></li>
+          <li><a href="methodology_v1.html"        class="nav__link nav__link--active">Methodology</a></li>
           <li><a href="aboutUs_v1.html"            class="nav__link">About</a></li>
           <li><a href="contactUs_v1.html"          class="btn btn--primary btn--sm">Contact Us</a></li>
         </ul>
@@ -556,10 +556,10 @@
         role="navigation"
         aria-label="Mobile navigation"
       >
-        <a href="index.html"                 class="nav__link nav__link--active">Home</a>
+        <a href="index.html"                 class="nav__link">Home</a>
         <a href="featuresComparison_v1.html" class="nav__link">AI Scribe Features</a>
         <a href="aiScribeReviews_v1.html"    class="nav__link">AI Scribe Reviews</a>
-        <a href="methodology_v1.html"        class="nav__link">Methodology</a>
+        <a href="methodology_v1.html"        class="nav__link nav__link--active">Methodology</a>
         <a href="aboutUs_v1.html"            class="nav__link">About</a>
         <a href="contactUs_v1.html"          class="btn btn--primary btn--sm">Contact Us</a>
       </div>
@@ -891,7 +891,7 @@
 
         <div class="sme-image-wrap">
           <img
-            src="images/Doctor_Paper_Tablet.png"
+            src="../images/Doctor_Paper_Tablet.png"
             alt="Clinician reviewing documentation on a tablet alongside paper records"
             loading="lazy"
           />
@@ -902,7 +902,7 @@
 
 
     <!-- ── Story bridge ───────────────────────────────────────── -->
-    <div class="story-bridge" aria-hidden="true">
+    <div class="story-bridge" style="padding-top: var(--space-4); padding-bottom: var(--space-4);" aria-hidden="true">
       <div class="story-bridge__arrow">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -916,28 +916,348 @@
       </div>
     </div>
 
-
     <!-- ============================================================
-         SECTION 5 — GRADING (PLACEHOLDER)
+         SECTION 5 — GRADING
          ============================================================ -->
-    <section class="section" aria-labelledby="grading-heading">
+    <section class="section" style="padding-top: var(--space-8);" aria-labelledby="grading-heading">
       <div class="container">
 
         <div class="section-header">
-          <h2 id="grading-heading">Grading</h2>
-          <p>Our evaluation findings are translated into a clear, structured grade — giving you a straightforward way to compare tools and understand where each one excels or falls short.</p>
+          <span class="section-label">Grading</span>
+          <h2 id="grading-heading">How we turn findings into a grade</h2>
+          <p>Every issue uncovered during the evaluation is scored and combined into a single number out of 100. That number maps to a letter grade — giving you a clear, at-a-glance measure of how each tool performs in real clinical use.</p>
         </div>
 
-        <div class="grading-placeholder">
-          <svg class="grading-placeholder__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-          <h3>Grading Framework Coming Soon</h3>
-          <p>This section is reserved for our grading criteria. Check back as we continue to develop the site.</p>
+        <!-- ── Score formula visual ───────────────────────────── -->
+        <div class="grading-formula" aria-label="Score formula overview">
+
+          <div class="grading-component grading-component--primary">
+            <div class="grading-component__weight" aria-label="How serious are the problems">How serious are the problems?</div>
+            <div class="grading-component__body">
+              <p class="grading-component__desc">Each finding is weighted by its severity. A single patient-safety risk counts far more heavily than a minor friction point — because in a clinical environment, the stakes of a flaw matter more than the quantity.</p>
+              <div class="grading-component__pills" aria-label="Severity penalty tiers">
+                <span class="grading-pill grading-pill--low">Cosmetic — no penalty</span>
+                <span class="grading-pill grading-pill--mid">Minor — small deduction</span>
+                <span class="grading-pill grading-pill--high">Major — larger deduction</span>
+                <span class="grading-pill grading-pill--crit">Critical — heavy deduction</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grading-formula__connector" aria-hidden="true">
+            <span class="grading-formula__plus">+</span>
+          </div>
+
+          <div class="grading-component grading-component--secondary">
+            <div class="grading-component__weight grading-component__weight--secondary" aria-label="How many problems were found">How many problems were found?</div>
+            <div class="grading-component__body">
+
+              <p class="grading-component__desc">Volume matters too. A tool with a larger number of findings is held to a stricter standard — even if none of them are severe. More problems in total means more risk in practice.</p>
+              <div class="grading-component__pills" aria-label="Finding count impact">
+                <span class="grading-pill grading-pill--low">≤ 19 findings — full marks</span>
+                <span class="grading-pill grading-pill--mid">20–29 findings — moderate deduction</span>
+                <span class="grading-pill grading-pill--high">30+ findings — significant deduction</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grading-formula__connector" aria-hidden="true">
+            <span class="grading-formula__equals">=</span>
+          </div>
+
+          <div class="grading-result" role="region" aria-label="Final score result">
+            <div class="grading-result__circle" aria-hidden="true">
+              <span class="grading-result__label">Score</span>
+              <span class="grading-result__range">0 – 100</span>
+            </div>
+            <p class="grading-result__desc">The two components are blended into a single score, which maps directly to a letter grade.</p>
+          </div>
+
+        </div>
+
+        <!-- ── Grade scale ────────────────────────────────────── -->
+        <div class="grade-scale" role="list" aria-label="Letter grade scale">
+
+          <div class="grade-scale__row grade-scale__row--a" role="listitem">
+            <div class="grade-scale__letter" aria-label="Grade A">A</div>
+            <div class="grade-scale__range">90 – 100</div>
+            <div class="grade-scale__desc">Excellent. Minimal usability concerns. Safe and efficient for deployment across clinical settings.</div>
+          </div>
+
+          <div class="grade-scale__row grade-scale__row--b" role="listitem">
+            <div class="grade-scale__letter" aria-label="Grade B">B</div>
+            <div class="grade-scale__range">80 – 89</div>
+            <div class="grade-scale__desc">Good. Some issues present but the core clinical workflow is reliable and well-supported.</div>
+          </div>
+
+          <div class="grade-scale__row grade-scale__row--c" role="listitem">
+            <div class="grade-scale__letter" aria-label="Grade C">C</div>
+            <div class="grade-scale__range">70 – 79</div>
+            <div class="grade-scale__desc">Adequate. Noticeable friction or moderate concerns worth reviewing carefully before deployment.</div>
+          </div>
+
+          <div class="grade-scale__row grade-scale__row--d" role="listitem">
+            <div class="grade-scale__letter" aria-label="Grade D">D</div>
+            <div class="grade-scale__range">60 – 69</div>
+            <div class="grade-scale__desc">Below standard. Significant issues that may affect safe or efficient use in a clinical environment.</div>
+          </div>
+
+          <div class="grade-scale__row grade-scale__row--f" role="listitem">
+            <div class="grade-scale__letter" aria-label="Grade F">F</div>
+            <div class="grade-scale__range">0 – 59</div>
+            <div class="grade-scale__desc">Not recommended. Critical problems identified that pose meaningful risk to clinical workflow or patient safety.</div>
+          </div>
+
         </div>
 
       </div>
     </section>
+
+    <style>
+      /* ── Grading formula layout ──────────────────────────────── */
+      .grading-formula {
+        display:        flex;
+        align-items:    stretch;
+        gap:            var(--space-4);
+        margin-bottom:  var(--space-12);
+        flex-wrap:      wrap;
+      }
+
+      .grading-component {
+        flex:           1 1 260px;
+        display:        flex;
+        flex-direction: column;
+        background:     var(--color-surface);
+        border:         1px solid var(--color-border);
+        border-radius:  var(--radius-lg);
+        overflow:       hidden;
+        box-shadow:     var(--shadow-sm);
+        transition:     box-shadow var(--transition-normal);
+      }
+
+      .grading-component:hover {
+        box-shadow: var(--shadow-md);
+      }
+
+      .grading-component__weight {
+        background:     var(--color-primary);
+        color:          var(--color-white);
+        font-family:    var(--font-heading);
+        font-size:      var(--text-lg);
+        font-weight:    var(--weight-black);
+        text-align:     center;
+        padding:        var(--space-5) var(--space-6);
+        letter-spacing: -0.01em;
+        line-height:    var(--leading-snug);
+      }
+
+      .grading-component__weight--secondary {
+        background: var(--color-secondary-dark);
+        color:      var(--color-primary);
+      }
+
+      .grading-component__body {
+        padding:        var(--space-6);
+        display:        flex;
+        flex-direction: column;
+        gap:            var(--space-4);
+        flex:           1;
+      }
+
+      .grading-component__title {
+        font-size:   var(--text-2xl);
+        font-weight: var(--weight-black);
+        color:       var(--color-primary);
+        margin:      0;
+      }
+
+      .grading-component__desc {
+        font-size:   var(--text-sm);
+        color:       var(--color-text-muted);
+        line-height: var(--leading-loose);
+        margin:      0;
+      }
+
+      .grading-component__pills {
+        display:    flex;
+        flex-wrap:  wrap;
+        gap:        var(--space-2);
+        margin-top: auto;
+      }
+
+      .grading-pill {
+        font-family:    var(--font-body);
+        font-size:      var(--text-xs);
+        font-weight:    var(--weight-semibold);
+        border-radius:  var(--radius-pill);
+        padding:        var(--space-1) var(--space-3);
+        white-space:    nowrap;
+      }
+
+      .grading-pill--low  { background: #EAF6EC; color: #1a7f4b; }
+      .grading-pill--mid  { background: #E5F1FB; color: var(--color-primary); }
+      .grading-pill--high { background: #FFF4E5; color: #D97706; }
+      .grading-pill--crit { background: #FEECEC; color: #c0392b; }
+
+      /* Connector elements (+, =) */
+      .grading-formula__connector {
+        display:         flex;
+        align-items:     center;
+        justify-content: center;
+        flex-shrink:     0;
+        align-self:      center;
+      }
+
+      .grading-formula__plus,
+      .grading-formula__equals {
+        font-family:  var(--font-heading);
+        font-size:    var(--text-3xl);
+        font-weight:  var(--weight-black);
+        color:        var(--color-border);
+        line-height:  1;
+      }
+
+      /* Result circle */
+      .grading-result {
+        flex:            0 1 180px;
+        display:         flex;
+        flex-direction:  column;
+        align-items:     center;
+        justify-content: center;
+        gap:             var(--space-4);
+        text-align:      center;
+        align-self:      center;
+      }
+
+      .grading-result__circle {
+        width:           110px;
+        height:          110px;
+        border-radius:   50%;
+        background:      var(--color-primary);
+        display:         flex;
+        flex-direction:  column;
+        align-items:     center;
+        justify-content: center;
+        gap:             var(--space-1);
+        box-shadow:      var(--shadow-md);
+        flex-shrink:     0;
+      }
+
+      .grading-result__label {
+        font-family:    var(--font-body);
+        font-size:      var(--text-xs);
+        font-weight:    var(--weight-semibold);
+        color:          rgba(255,255,255,0.75);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .grading-result__range {
+        font-family: var(--font-heading);
+        font-size:   var(--text-lg);
+        font-weight: var(--weight-black);
+        color:       var(--color-white);
+        line-height: 1;
+      }
+
+      .grading-result__desc {
+        font-size:   var(--text-sm);
+        color:       var(--color-text-muted);
+        line-height: var(--leading-loose);
+        margin:      0;
+        max-width:   160px;
+      }
+
+      /* ── Grade scale table ───────────────────────────────────── */
+      .grade-scale {
+        display:        flex;
+        flex-direction: column;
+        border-radius:  var(--radius-lg);
+        overflow:       hidden;
+        border:         1px solid var(--color-border);
+        box-shadow:     var(--shadow-sm);
+      }
+
+      .grade-scale__row {
+        display:       grid;
+        grid-template-columns: 72px 120px 1fr;
+        align-items:   center;
+        gap:           var(--space-6);
+        padding:       var(--space-5) var(--space-8);
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+        transition:    background var(--transition-fast);
+      }
+
+      .grade-scale__row:last-child {
+        border-bottom: none;
+      }
+
+      .grade-scale__row:hover {
+        filter: brightness(0.97);
+      }
+
+      .grade-scale__row--a { background: #EAF6EC; }
+      .grade-scale__row--b { background: #E5F1FB; }
+      .grade-scale__row--c { background: #FFF9EC; }
+      .grade-scale__row--d { background: #FFF4E5; }
+      .grade-scale__row--f { background: #FEECEC; }
+
+      .grade-scale__letter {
+        font-family: var(--font-heading);
+        font-size:   var(--text-3xl);
+        font-weight: var(--weight-black);
+        line-height: 1;
+        text-align:  center;
+      }
+
+      .grade-scale__row--a .grade-scale__letter { color: #1a7f4b; }
+      .grade-scale__row--b .grade-scale__letter { color: var(--color-primary); }
+      .grade-scale__row--c .grade-scale__letter { color: #B07D0A; }
+      .grade-scale__row--d .grade-scale__letter { color: #D97706; }
+      .grade-scale__row--f .grade-scale__letter { color: #c0392b; }
+
+      .grade-scale__range {
+        font-family: var(--font-body);
+        font-size:   var(--text-sm);
+        font-weight: var(--weight-semibold);
+        color:       var(--color-text-muted);
+        white-space: nowrap;
+      }
+
+      .grade-scale__desc {
+        font-size:   var(--text-sm);
+        color:       var(--color-text);
+        line-height: var(--leading-loose);
+      }
+
+      /* Responsive */
+      @media (max-width: 640px) {
+        .grading-formula {
+          flex-direction: column;
+        }
+        .grading-formula__connector {
+          transform: rotate(90deg);
+        }
+        .grading-result {
+          flex-direction:  row;
+          text-align:      left;
+          flex:            unset;
+          width:           100%;
+          justify-content: flex-start;
+        }
+        .grading-result__desc {
+          max-width: unset;
+        }
+        .grade-scale__row {
+          grid-template-columns: 56px 100px 1fr;
+          gap:     var(--space-4);
+          padding: var(--space-4) var(--space-5);
+        }
+        .grade-scale__letter {
+          font-size: var(--text-2xl);
+        }
+      }
+    </style>
 
 
     <!-- ============================================================
@@ -994,7 +1314,7 @@
     <div class="footer__inner">
 
       <div class="footer__brand">
-        <a href="index.html" class="footer__logo">Clinician Reports</a>
+        <a href="../index.html" class="footer__logo">Clinician Reports</a>
         <p class="footer__tagline">
           Independent human factors evaluations of AI scribe tools —
           helping you choose the right solution based on safety and efficiency.
@@ -1004,7 +1324,7 @@
       <div style="margin-left: auto;">
         <p class="footer__col-title">Pages</p>
         <ul class="footer__links" role="list">
-          <li><a href="index.html"           class="footer__link">Home</a></li>
+          <li><a href="../index.html"           class="footer__link">Home</a></li>
           <li><a href="aiScribeReviews_v1.html" class="footer__link">AI Scribe Reviews</a></li>
           <li><a href="methodology_v1.html"     class="footer__link">Methodology</a></li>
           <li><a href="aboutUs_v1.html"         class="footer__link">About Us</a></li>
